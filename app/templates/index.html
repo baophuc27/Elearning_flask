@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- CACH LIEN KET FILE CSS TRONG FLASK -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css')}}">
     <title>Document</title>
 </head>
 <body>
     <h1>Alo</h1>
 </body>
+<!-- CACH LIEN KET FILE JS TRONG FLASK -->
+<script src="{{ url_for('static', filename='js/script.js')}}"></script>
 </html>
