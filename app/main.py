@@ -1,7 +1,5 @@
 from flask import *
 import os
-import socket
-import pyodbc
 template_dir=os.path.abspath("/templates")
 
 app=Flask(__name__)
