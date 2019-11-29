@@ -1,3 +1,4 @@
+
 CREATE TABLE Users(
 	userid CHAR(10) NOT NULL,
 	uname VARCHAR(15) NOT NULL,
@@ -8,23 +9,25 @@ CREATE TABLE Users(
 	username VARCHAR(15) NOT NULL,
 	PRIMARY KEY (userid),
 );
+
 CREATE TABLE Phone(
 	userid CHAR(10) NOT NULL,
 	phone VARCHAR(11),
 	PRIMARY KEY (userid),
 );
+
 CREATE TABLE Student(
 	studentid CHAR(10) NOT NULL,
 	loaiHV CHAR(1),
 	trialID CHAR(10),
 	expireddate date,
-	PRIMARY KEY (userid),
+	PRIMARY KEY (studentid),
 );
 
 CREATE TABLE Teacher(
 	teacherid CHAR(10) NOT NULL,
 	balance DECIMAL (10,2),
-	PRIMARY KEY (userid),
+	PRIMARY KEY (teacherid),
 );
 
 
@@ -54,7 +57,7 @@ CREATE TABLE Course(
 CREATE TABLE Teach(
 	teacherid CHAR(10) NOT NULL,
 	courseid CHAR(8) NOT NULL,
-	PRIMARY KEY (userid,courseid),
+	PRIMARY KEY (teacherid,courseid),
 );
 
 CREATE TABLE Curricourse(
@@ -73,14 +76,14 @@ CREATE TABLE Enroll(
 	studentid CHAR(10) NOT NULL,
 	courseid CHAR(8) NOT NULL,
 	epoint DECIMAL (2,2),
-	PRIMARY KEY(userid,courseid),
+	PRIMARY KEY(studentid,courseid),
 );
 
 CREATE TABLE Assessment(
 	studentid CHAR(10) NOT NULL,
 	courseid CHAR (8) NOT NULL,
 	apoint DECIMAL(2,2),
-	PRIMARY KEY(userid,courseid),
+	PRIMARY KEY(studentid,courseid),
 );
 
 CREATE TABLE Lesson(
