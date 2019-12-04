@@ -13,13 +13,16 @@ def create_app(config_name):
 
     @app.route("/")
     def index():
-       User.query.getListFName(db)
        return render_template("index.html")
     
-    @app.route("/truclu")
-    def truc():
-        print("asdfad")
-        return render_template("index.html")
+    @app.route("/login",methods=["POST"])
+    def login():
+        if request.method=="POST":
+            name = request.form['name']
+            password = request.form['password']
+            if User.query.getNameandPass(db,name,password):
+                return render_template("home.html")
+            
 
     return app
 

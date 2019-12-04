@@ -4,10 +4,14 @@ class Users():
     pass
 class query():
     @staticmethod
-    def getListFName(db):
-        sql="select fname from employee"
-        result=db.engine.execute(sql)
-        names=[row[0] for row in result]
-        print(names)
+    def getNameandPass(db,name,password):
+        sql="select * from users where uname=\'"+name+ "\' and password=\'"+password +"\'"
+        result = db.engine.execute(sql)
+        if result is not None:
+            return True
+        else:
+            return False
+
+
 
 
