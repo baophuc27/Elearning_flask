@@ -1,5 +1,4 @@
-app/__pycache__/__init__.cpython-37.pyc
-app/__pycache__/__init__.cpython-37.pyc
-app/models/__pycache__/User.cpython-37.pyc
-app/__pycache__/__init__.cpython-37.pyc
+app/models/__pycache__
 app/__pycache__
+.vscode
+app/instance/config.py
