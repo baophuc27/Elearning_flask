@@ -4,5 +4,5 @@ from urllib import parse
 # params =parse.quote_plus("DRIVER={SQL Server};SERVER=SERVER_NAME;DATABASE=DB;UID=user;PWD=password")
 
 #FOR WINDOWS AUTHENTICATION
-params=parse.quote_plus('Driver={SQL Server};Server=DESKTOP-IF5CCEF\TESTINSTANCE;Database=lab4;Trusted_Connection=yes;')
+params=parse.quote_plus('Driver={SQL Server};Server=DESKTOP-KQ9A20T\TRUCLU;Database=Assignment2;Trusted_Connection=yes;')
 SQLALCHEMY_DATABASE_URI="mssql+pyodbc:///?odbc_connect=%s" % params
