@@ -1,5 +1,5 @@
 CREATE TABLE Users(
-	userid CHAR(7) NOT NULL,
+	userid int NOT NULL,
 	uname VARCHAR(20) NOT NULL,
 	sex CHAR(1),
 	bdate date,
@@ -10,42 +10,42 @@ CREATE TABLE Users(
 );
 
 CREATE TABLE Phone(
-	userid CHAR(7) NOT NULL,
+	userid int NOT NULL,
 	phone VARCHAR(11),
 	PRIMARY KEY (userid),
 );
 
 CREATE TABLE Student(
-	studentid CHAR(7) NOT NULL,
+	studentid int NOT NULL,
 	studenttype CHAR(1),
-	trialID CHAR(5),
+	trialid int,
 	expireddate date,
 	PRIMARY KEY (studentid),
 );
 
 CREATE TABLE Teacher(
-	teacherid CHAR(7) NOT NULL,
+	teacherid int NOT NULL,
 	balance DECIMAL (10,2),
 	PRIMARY KEY (teacherid),
 );
 
 
 CREATE TABLE Topic(
-	tid CHAR(5) NOT NULL,
+	tid int NOT NULL,
 	tname NVARCHAR(30),
 	tdesc NVARCHAR(200),
 	PRIMARY KEY (tid),
 );
 
 CREATE TABLE Curriculum(
-	curriid CHAR(5) NOT NULL,
+	curriid int NOT NULL,
 	curriname NVARCHAR(30),
 	curridesc NVARCHAR(200),
 	PRIMARY KEY (curriid),
 );
 
 CREATE TABLE Course(
-	courseid CHAR(5) NOT NULL,
+	courseid int NOT NULL,
 	cname NVARCHAR(50),
 	cdesc NVARCHAR(300),
 	cstatus CHAR(1),
@@ -54,98 +54,98 @@ CREATE TABLE Course(
 );
 
 CREATE TABLE Teach(
-	teacherid CHAR(7) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	teacherid int NOT NULL,
+	courseid int NOT NULL,
 	PRIMARY KEY (teacherid,courseid),
 );
 
 CREATE TABLE Curricourse(
-	curid CHAR(5) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	curid int NOT NULL,
+	courseid int NOT NULL,
 	PRIMARY KEY(curid,courseid),
 );
 
 CREATE TABLE Topiccourse(
-	topicid CHAR(5) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	topicid int NOT NULL,
+	courseid int NOT NULL,
 	PRIMARY KEY (topicid,courseid),
 );
 
 CREATE TABLE Enroll(
-	studentid CHAR(7) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	studentid int NOT NULL,
+	courseid int NOT NULL,
 	epoint DECIMAL (2,2),
 	PRIMARY KEY(studentid,courseid),
 );
 
 CREATE TABLE Assessment(
-	studentid CHAR(7) NOT NULL,
-	courseid CHAR (5) NOT NULL,
+	studentid int NOT NULL,
+	courseid int NOT NULL,
 	apoint DECIMAL(2,2),
 	PRIMARY KEY(studentid,courseid),
 );
 
 CREATE TABLE Lesson(
-	courseid CHAR(5) NOT NULL,
-	lid CHAR(2) NOT NULL,
+	courseid int NOT NULL,
+	lid int NOT NULL,
 	lname NVARCHAR(300),
 	PRIMARY KEY(courseid,lid),
 )
 
 CREATE TABLE Document(
-	courseid CHAR(5) NOT NULL,
-	lid CHAR(2) NOT NULL,
-	docid CHAR(2) NOT NULL,
+	courseid int NOT NULL,
+	lid int NOT NULL,
+	docid int NOT NULL,
 	link VARCHAR(100),
 	PRIMARY KEY (courseid,lid,docid),
 );
 
 CREATE TABLE Dicussion(
-	dicid CHAR(5) NOT NULL,
-	userid CHAR(7) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	dicid int NOT NULL,
+	userid int NOT NULL,
+	courseid int NOT NULL,
 	startdate DATE,
 	content NVARCHAR(500),
 	PRIMARY KEY (dicid),
 );
 
 CREATE TABLE Comment(
-	dicid CHAR(5) NOT NULL,
-	commentid CHAR(5) NOT NULL,
+	dicid int NOT NULL,
+	commentid int NOT NULL,
 	content NVARCHAR(500),
 	ctime datetime,
 	PRIMARY KEY(dicid,commentid),
 );
 
 CREATE TABLE Examination(
-	eid CHAR(5) NOT NULL,
-	courseid CHAR(5) NOT NULL,
+	eid int NOT NULL,
+	courseid int NOT NULL,
 	PRIMARY KEY (eid),
 );
 
 CREATE TABLE Exam(
-	examid CHAR(5) NOT NULL,
-	userid CHAR(7) NOT NULL,
+	examid int NOT NULL,
+	userid int NOT NULL,
 	takentime datetime,
 	PRIMARY KEY (examid,userid),
 );
 
 CREATE TABLE Question(
-	qid CHAR(8) NOT NULL,
+	qid int NOT NULL,
 	content NVARCHAR(500),
 	point DECIMAL(2,2),
 	PRIMARY KEY (qid),
 );
 
 CREATE TABLE ExaminationQuestion(
-	eid CHAR(5) NOT NULL,
-	qid CHAR(8) NOT NULL,
+	eid int NOT NULL,
+	qid int NOT NULL,
 	PRIMARY KEY (eid,qid),
 );
 
 
 CREATE TABLE Options(
-	qid CHAR(8) NOT NULL,
+	qid int NOT NULL,
 	onumber CHAR(3),
 	content NVARCHAR(500),
 	result CHAR(1),
@@ -153,10 +153,10 @@ CREATE TABLE Options(
 );
 
 CREATE TABLE ExamOption(
-	eid CHAR(5) NOT NULL,
-	studentid CHAR(7) NOT NULL,
+	eid int NOT NULL,
+	studentid int NOT NULL,
 	onumber CHAR(3),
-	qid CHAR(8),
+	qid int,
 	examresult DECIMAL(2,2),
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
