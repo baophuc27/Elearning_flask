@@ -1,5 +1,5 @@
 CREATE TABLE Users(
-	userid int NOT NULL,
+	userid int IDENTITY(1,1) NOT NULL,
 	uname VARCHAR(20) NOT NULL,
 	sex CHAR(1),
 	bdate date,
@@ -18,7 +18,7 @@ CREATE TABLE Phone(
 CREATE TABLE Student(
 	studentid int NOT NULL,
 	studenttype CHAR(1),
-	trialid int,
+	trialid int IDENTITY(1,1),
 	expireddate date,
 	PRIMARY KEY (studentid),
 );
@@ -31,14 +31,14 @@ CREATE TABLE Teacher(
 
 
 CREATE TABLE Topic(
-	tid int NOT NULL,
+	tid int IDENTITY(1,1) NOT NULL,
 	tname NVARCHAR(30),
 	tdesc NVARCHAR(200),
 	PRIMARY KEY (tid),
 );
 
 CREATE TABLE Curriculum(
-	curriid int NOT NULL,
+	curriid int IDENTITY(1,1) NOT NULL,
 	curriname NVARCHAR(30),
 	curridesc NVARCHAR(200),
 	PRIMARY KEY (curriid),
@@ -87,7 +87,7 @@ CREATE TABLE Assessment(
 
 CREATE TABLE Lesson(
 	courseid int NOT NULL,
-	lid int NOT NULL,
+	lid int IDENTITY(1,1) NOT NULL,
 	lname NVARCHAR(300),
 	PRIMARY KEY(courseid,lid),
 )
@@ -95,13 +95,13 @@ CREATE TABLE Lesson(
 CREATE TABLE Document(
 	courseid int NOT NULL,
 	lid int NOT NULL,
-	docid int NOT NULL,
+	docid int IDENTITY(1,1) NOT NULL,
 	link VARCHAR(100),
 	PRIMARY KEY (courseid,lid,docid),
 );
 
 CREATE TABLE Dicussion(
-	dicid int NOT NULL,
+	dicid int IDENTITY(1,1) NOT NULL,
 	userid int NOT NULL,
 	courseid int NOT NULL,
 	startdate DATE,
@@ -111,27 +111,27 @@ CREATE TABLE Dicussion(
 
 CREATE TABLE Comment(
 	dicid int NOT NULL,
-	commentid int NOT NULL,
+	commentid int IDENTITY(1,1) NOT NULL,
 	content NVARCHAR(500),
 	ctime datetime,
 	PRIMARY KEY(dicid,commentid),
 );
 
 CREATE TABLE Examination(
-	eid int NOT NULL,
+	eid int IDENTITY(1,1) NOT NULL,
 	courseid int NOT NULL,
 	PRIMARY KEY (eid),
 );
 
 CREATE TABLE Exam(
-	examid int NOT NULL,
+	examid int IDENTITY(1,1) NOT NULL,
 	userid int NOT NULL,
 	takentime datetime,
 	PRIMARY KEY (examid,userid),
 );
 
 CREATE TABLE Question(
-	qid int NOT NULL,
+	qid int IDENTITY(1,1) NOT NULL,
 	content NVARCHAR(500),
 	point DECIMAL(2,2),
 	PRIMARY KEY (qid),
