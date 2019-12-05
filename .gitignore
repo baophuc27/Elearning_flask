@@ -2,3 +2,4 @@ app/models/__pycache__
 app/__pycache__
 .vscode
 app/instance/config.py
+ass2env

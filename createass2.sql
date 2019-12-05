@@ -3,7 +3,7 @@ CREATE TABLE Users(
 	uname VARCHAR(20) NOT NULL,
 	sex CHAR(1),
 	bdate date,
-	address VARCHAR(30),
+	address NVARCHAR(30),
 	password CHAR(32) NOT NULL,
 	username NVARCHAR(30) NOT NULL,
 	PRIMARY KEY (userid),
@@ -32,22 +32,22 @@ CREATE TABLE Teacher(
 
 CREATE TABLE Topic(
 	tid CHAR(5) NOT NULL,
-	tname VARCHAR(30),
-	tdesc VARCHAR(200),
+	tname NVARCHAR(30),
+	tdesc NVARCHAR(200),
 	PRIMARY KEY (tid),
 );
 
 CREATE TABLE Curriculum(
 	curriid CHAR(5) NOT NULL,
-	curriname VARCHAR(30),
-	curridesc VARCHAR(200),
+	curriname NVARCHAR(30),
+	curridesc NVARCHAR(200),
 	PRIMARY KEY (curriid),
 );
 
 CREATE TABLE Course(
 	courseid CHAR(5) NOT NULL,
-	cname VARCHAR(50),
-	cdesc VARCHAR(300),
+	cname NVARCHAR(50),
+	cdesc NVARCHAR(300),
 	cstatus CHAR(1),
 	price DECIMAL(8,2),
 	PRIMARY KEY (courseid),
@@ -88,7 +88,7 @@ CREATE TABLE Assessment(
 CREATE TABLE Lesson(
 	courseid CHAR(5) NOT NULL,
 	lid CHAR(2) NOT NULL,
-	lname NVARCHAR,
+	lname NVARCHAR(300),
 	PRIMARY KEY(courseid,lid),
 )
 
@@ -105,14 +105,14 @@ CREATE TABLE Dicussion(
 	userid CHAR(7) NOT NULL,
 	courseid CHAR(5) NOT NULL,
 	startdate DATE,
-	content NVARCHAR,
+	content NVARCHAR(500),
 	PRIMARY KEY (dicid),
 );
 
 CREATE TABLE Comment(
-	dicid CHAR(8) NOT NULL,
-	commentid CHAR(8) NOT NULL,
-	content NVARCHAR,
+	dicid CHAR(5) NOT NULL,
+	commentid CHAR(5) NOT NULL,
+	content NVARCHAR(500),
 	ctime datetime,
 	PRIMARY KEY(dicid,commentid),
 );
@@ -132,7 +132,7 @@ CREATE TABLE Exam(
 
 CREATE TABLE Question(
 	qid CHAR(8) NOT NULL,
-	content NVARCHAR,
+	content NVARCHAR(500),
 	point DECIMAL(2,2),
 	PRIMARY KEY (qid),
 );
@@ -147,7 +147,7 @@ CREATE TABLE ExaminationQuestion(
 CREATE TABLE Options(
 	qid CHAR(8) NOT NULL,
 	onumber CHAR(3),
-	content NVARCHAR,
+	content NVARCHAR(500),
 	result CHAR(1),
 	PRIMARY KEY (qid,onumber),
 );
