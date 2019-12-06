@@ -1,4 +1,4 @@
-/*
+
 ALTER TABLE Lesson
  ADD CONSTRAINT fk_lesson_course_couseid FOREIGN KEY (courseid)
  REFERENCES course (courseid) 
