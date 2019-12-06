@@ -8,6 +8,7 @@ class DevelopmentConfig(Config):
     TESTING=True
     SQLALCHEMY_ECHO = True
     SQLALCHEMY_TRACK_MODIFICATIONS=True
+    SECRET_KEY="HELLO"
 
 
 class ProductionConfig(Config):
