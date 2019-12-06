@@ -43,10 +43,20 @@
 						<button class="login100-form-btn">
 							Login
 						</button>
-					</div>
+                    </div>
+                    
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for messages in messages %}
+                            <div class="error">
+                                {{messages}}
+                            </div>        
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
 
-					<div class="text-center p-t-136">
-						<a class="txt2" href="#">
+					<div class="text-center p-t-136"  >
+						<a class="txt2" href="/registertransfer">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>
@@ -55,7 +65,7 @@
 			</div>
 		</div>
 	</div>
-
+<a href="/dicussion">dicussion</a>
 </body>
 </html>
 
