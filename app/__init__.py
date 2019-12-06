@@ -64,7 +64,9 @@ def create_app(config_name):
             role = request.form['role']
             ##insert into database
 
-            User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)
+            if ( not User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)):
+                flash("Teacher must be over 18 years old")
+                return render_template("register.html")
             return render_template("home.html")
 
 

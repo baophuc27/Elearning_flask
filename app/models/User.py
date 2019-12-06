@@ -38,8 +38,7 @@ class query():
         result=db.engine.execute(sql)
         userid=result.fetchone()
         userid=userid[0]
-
-        query.insertrole(db,userid,role)
+        return query.insertrole(db,userid,role)
     
     @staticmethod
     def insertrole(db,userid,role):
@@ -51,10 +50,15 @@ class query():
         connection=db.engine.connect()
         trans=connection.begin()
         error=connection.execute(sql)
-        print('abc')
-        print(error.fetchone())
         trans.commit()
-
+        
+        sql="select userid from Users where (userid="+str(userid)+")"
+        result=db.engine.execute(sql)
+        userid=result.fetchone()
+        if (userid is None):
+            return False
+        else:
+            return True
     
 
 

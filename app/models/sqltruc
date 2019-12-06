@@ -35,12 +35,12 @@ end catch*/
 @teacherid int,
 @balance DECIMAL)
 as
-begin try
+begin
 insert into Teacher values (@teacherid,@balance);
-end try
-begin catch
-	select ERROR_MESSAGE()
-end catch
+select ERROR_MESSAGE()
+end*/
+
+	
 
 /*create procedure insertinstudent
 (	@studentid int,
@@ -59,7 +59,7 @@ end catch*/
 
 --exec insertinuser 'abc','M','05/08/1999',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'
 --select * from Users
-*/
+
 create trigger insertteacher on Teacher 
 after insert,update
 as
@@ -72,9 +72,8 @@ begin
 		-- xử lý nếu tuổi gv < 18
 		delete from teacher where teacherid=@insertid
 		delete from users where userid=@insertid
-		--raiserror('Age of Teachers must be over 18',12,2)
-		select 'Age of Teachers must be over 18' as error
-		--select ERROR_MESSAGE() as error
+		raiserror('Age of Teachers must be over 18',12,2)
+		select ERROR_MESSAGE()
 		end
 end
 drop trigger insertteacher
@@ -149,20 +148,9 @@ end*/
 --exec dbo.insertinuser 'baophuc','M','2014-02-09',NULL,'202cb962ac59075b964b07152d234b70',N'bao phuc'
 --exec dbo.insertinuser 'sacccsaa','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's' 
 --insert into Teacher values(3,NULL)
-exec dbo.insertinteacher 21,NULL
-select * from users 
+exec dbo.insertinteacher 1037,NULL
+select * from users
 select * from teacher
-exec dbo.insertinuser 'fsssad','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's'
+exec dbo.insertinuser 'fdxxd','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's'
 delete from Teacher
-
-insert into teacher values (33,NULL)
-select SCOPE_IDENTITY()
-
-begin try
-insert into Teacher values (10,NULL)
-	select ERROR_MESSAGE()
-
-end try
-begin catch
-end catch
-
+select userid from Users where (userid=1038)
