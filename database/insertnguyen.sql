@@ -1,4 +1,4 @@
-INSERT INTO Course VALUES ('C1PYT',N'Python cơ bản',N'Làm quen và nắm bắt những kiến thức căn bản của Python','O',300000.00)
+  INSERT INTO Course VALUES ('C1PYT',N'Python cơ bản',N'Làm quen và nắm bắt những kiến thức căn bản của Python','O',300000.00)
   INSERT INTO Course VALUES ('C2ALG',N'Thuật toán trong Machine Learning',N'Giới thiệu các thuật toán phổ biến trong Machine Learning dành cho newbie','O',900000.00)
   INSERT INTO Course VALUES ('C3MOD',N'Model trong Deep Learning',N'Nhập môn Deep Learning bằng việc làm quen với các model như CNN, RNN, LSTM','O',650000.00)
   INSERT INTO Course VALUES ('C4DAT',N'Xử lý và phân tích data',N'Học xử lý data bằng Pandas và analysis bằng Matplot hay Seaborn','O',500000.00)
