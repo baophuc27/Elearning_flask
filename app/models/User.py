@@ -33,13 +33,16 @@ class query():
         trans=connection.begin()
         connection.execute(sql)
         trans.commit()
-        #select id of new user
+        # select id of new user
         sql="select userid from Users where (uname=\'"+uname+"\')"
-        connection=db.engine.connect()
-        trans=connection.begin()
-        result=connection.execute(sql)
+        result=db.engine.execute(sql)
         userid=result.fetchone()
         userid=userid[0]
+
+        query.insertrole(db,userid,role)
+    
+    @staticmethod
+    def insertrole(db,userid,role):
         #add into teacher or student
         if role=='Student':
             sql="exec dbo.insertinstudent "+str(userid)+",'T',NULL,NULL"
@@ -48,9 +51,11 @@ class query():
         connection=db.engine.connect()
         trans=connection.begin()
         error=connection.execute(sql)
-        print("error {0}".format(error.fetchone()))
-        #trans.commit()
-       
+        print('abc')
+        print(error.fetchone())
+        trans.commit()
+
+    
 
 
 
