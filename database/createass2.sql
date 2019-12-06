@@ -18,7 +18,7 @@ CREATE TABLE Phone(
 CREATE TABLE Student(
 	studentid int NOT NULL,
 	studenttype CHAR(1),
-	trialid int IDENTITY(1,1),
+	trialid int,
 	expireddate date,
 	PRIMARY KEY (studentid),
 );
@@ -45,10 +45,10 @@ CREATE TABLE Curriculum(
 );
 
 CREATE TABLE Course(
-	courseid int NOT NULL,
+	courseid int  NOT NULL,
 	cname NVARCHAR(50),
 	cdesc NVARCHAR(300),
-	cstatus CHAR(1),
+	rate DECIMAL(1,1),
 	price DECIMAL(8,2),
 	PRIMARY KEY (courseid),
 );

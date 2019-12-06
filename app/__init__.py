@@ -30,6 +30,7 @@ def create_app(config_name):
             password=hashlib.md5(password.encode("utf-8")).hexdigest()
             if User.query.getNameandPass(db,name,password):
                 flash("Login successful!")
+                session['username']=name
                 return render_template("home.html")
             else:
                 flash("Wrong username or password")
@@ -69,11 +70,13 @@ def create_app(config_name):
             User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)
             return render_template("home.html")
     @app.route("/course")
-    def 
+    def course():
+        return render_template("course.html")
 
     #--------------BAO PHUC--------------------
     @app.route("/dicussion")
     def dicussion():
+        print(session['username'])
         return render_template("dicussion.html")
     #-------------HET BAO PHUC-----------------
     return app
