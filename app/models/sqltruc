@@ -60,7 +60,7 @@ end catch*/
 --exec insertinuser 'abc','M','05/08/1999',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'
 --select * from Users
 
-create trigger insertteacher on Teacher 
+/*create trigger insertteacher on Teacher 
 after insert,update
 as
 begin
@@ -78,7 +78,7 @@ begin
 end
 drop trigger insertteacher
 --SELECT * FROM users
----insert into teacher values(5,NULL)
+---insert into teacher values(5,NULL)*/
 
 
 
@@ -148,9 +148,44 @@ end*/
 --exec dbo.insertinuser 'baophuc','M','2014-02-09',NULL,'202cb962ac59075b964b07152d234b70',N'bao phuc'
 --exec dbo.insertinuser 'sacccsaa','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's' 
 --insert into Teacher values(3,NULL)
-exec dbo.insertinteacher 1037,NULL
+/*exec dbo.insertinteacher 1037,NULL
 select * from users
 select * from teacher
 exec dbo.insertinuser 'fdxxd','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's'
 delete from Teacher
-select userid from Users where (userid=1038)
+select userid from Users where (userid=1038)*/
+
+/*CREATE FUNCTION checkphone
+(@phone VARCHAR(11))	
+returns bit 
+as
+begin 
+if len(@phone) < 9
+	return 0;
+return 1;
+end;*/
+
+/*create procedure insertinphone
+(	@uname VARCHAR(20), 
+	@phone VARCHAR(11)
+)
+as
+begin try
+declare @id int
+select @id = userid from users where (uname=@uname)
+insert into Phone values (@id,@phone);
+end try
+begin catch
+	select ERROR_MESSAGE() as error
+end catch*/
+
+exec insertinphone 'd','0916465507'
+
+/*CREATE TABLE Phone(
+	phoneid INT IDENTITY(1,1) NOT NULL,
+	userid INT NOT NULL,
+	phone VARCHAR(11),
+	PRIMARY KEY (phoneid),
+);*/
+
+select * from users

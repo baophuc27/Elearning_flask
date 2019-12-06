@@ -11,7 +11,7 @@ def create_app(config_name):
     db=SQLAlchemy(app)
     db.init_app(app)
     app.secret_key = "super secret key"
-
+    session = []
 
     @app.route("/")
     def index():
@@ -27,7 +27,9 @@ def create_app(config_name):
                 return render_template("index.html")
             password=hashlib.md5(password.encode("utf-8")).hexdigest()
             if User.query.getNameandPass(db,name,password):
-                flash("Login successful!")
+                information = User.query.addsession(db,name)
+                tmpuser= User.Users(information[0],information[1],information[2],information[3],information[6])
+                session.append(tmpuser)
                 return render_template("home.html")
             else:
                 flash("Wrong username or password")
@@ -63,10 +65,16 @@ def create_app(config_name):
                 return render_template("register.html")
             role = request.form['role']
             ##insert into database
-
+            phones = request.form['phone'] 
+            phones = phones.split(',')
+            #add phone vào
             if ( not User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)):
                 flash("Teacher must be over 18 years old")
                 return render_template("register.html")
+            if phones!=['']:
+                if (not User.query.addphone(db,name,phones)):
+                    flash("Phones less than 9 digits")
+                    return render_template("register.html")
             return render_template("home.html")
 
 

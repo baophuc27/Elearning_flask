@@ -1,7 +1,13 @@
 
 
 class Users():
-    pass
+    def __init__(self,userid,uname,sex,bdate,username):
+        self.userid=userid
+        self.uname=uname
+        self.sex=sex
+        self.bdate=bdate
+        self.username=username
+
 class query():
     @staticmethod
     def getNameandPass(db,name,password):
@@ -13,6 +19,14 @@ class query():
         else:
             return False
 
+    @staticmethod
+    def addsession(db,name):
+        sql = "select * from Users where (uname=\'"+name+"\')"
+        result = db.engine.execute(sql)
+        result = result.fetchone()
+        print("RESULT {0}".format(result))
+        return result
+        
     @staticmethod
     def checkifnameregisted(db,name):
         sql="select dbo.checknameregisted (\'"+name + "\')" 
@@ -61,6 +75,24 @@ class query():
             return True
     
 
-
+    @staticmethod
+    def addphone(db,uname,phones):
+        flag= True
+        for x in phones:
+            sql="select dbo.checkphone (\'"+x+"\')" 
+            result = db.engine.execute(sql)
+            result = result.fetchone()
+            if result[0] == False:
+                flag= False
+        if flag == False:
+            return False
+        else:
+            for x in phones:
+                sql="exec dbo.insertinphone \'"+uname + "\',\'"+x+"\'" 
+                connection=db.engine.connect()
+                trans=connection.begin()
+                connection.execute(sql)
+                trans.commit()
+        return True
 
 
