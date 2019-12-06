@@ -13,15 +13,9 @@ def create_app(config_name):
 
     @app.route("/")
     def index():
-       return render_template("index.html")
+       return render_template("course.html")
     
-    @app.route("/login",methods=["POST"])
-    def login():
-        if request.method=="POST":
-            name = request.form['name']
-            password = request.form['password']
-            if User.query.getNameandPass(db,name,password):
-                return render_template("home.html")
+   
             
 
     return app
