@@ -156,7 +156,7 @@ def create_app(config_name):
             sex = 'F'
         birthday = request.form['myDate']
         address= request.form['address']
-        if (not User.query.checkcanupdate(db,displayname,sex,birthday,address)):
+        if (not User.query.checkcanupdate(db,userid,displayname,sex,birthday,address)):
             flash('Wrong information')
             return render_template('home.html')
         if not User.query.update(db,userid,displayname,sex,birthday,address):

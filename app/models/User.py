@@ -131,8 +131,8 @@ class query():
 
 
     @staticmethod
-    def checkcanupdate(db,displayname,sex,birthday,address):
-        sql="select dbo.checkcanupdate (\'"+displayname+"\',\'"+sex+"\',\'"+birthday+"\',\'"+address+"\')"
+    def checkcanupdate(db,userid,displayname,sex,birthday,address):
+        sql="select dbo.checkcanupdate ("+str(userid)+",\'"+displayname+"\',\'"+sex+"\',\'"+birthday+"\',\'"+address+"\')"
         result = db.engine.execute(sql)
         result = result.fetchone()
         if result[0] == True:
