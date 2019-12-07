@@ -222,13 +222,13 @@ begin catch
 	select ERROR_MESSAGE() as error
 end catch
 
-exec dbo.insertinuser 'fdxxd','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Thiên Trúc'
-exec dbo.insertinuser 'fdxxde','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Trúc'
-exec dbo.insertinuser 'fdxexd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Anh Trúc'
-exec dbo.insertinuser 'fdx3xd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Hương Giang'
+exec dbo.insertinuser 'fdxxeeed','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị Hương'
+exec dbo.insertinuser 'fdxxeeede','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Mai'
+exec dbo.insertinuser 'fdxeeexd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Trần Thị Giang'
+exec dbo.insertinuser 'fsssdx3xd','M','1999-02-09','Hồ chí minh','03c7c0ace395d80182db07ae2c30f034',N'Thị A'
 exec dbo.insertinuser 'fd3xxd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thành Giang'
 
-select *from Teach
+select *from Student
 
 exec dbo.insertinteacher 1056,NULL
 exec dbo.insertinteacher 1057,NULL
@@ -236,13 +236,50 @@ exec dbo.insertinteacher 1058,NULL
 exec dbo.insertinteacher 1059,NULL
 exec dbo.insertinteacher 1060,NULL
 
+exec dbo.insertinstudent 1064,T,NULL,NULL
+exec dbo.insertinstudent 1065,O,NULL,NULL
+exec dbo.insertinstudent 1066,O,NULL,NULL
+exec dbo.insertinstudent 1067,T,NULL,NULL
+
+
 insert into Teach values (1056,1)
 insert into Teach values (1056,2)
 insert into Teach values (1056,3)
 insert into Teach values (1057,4)
 insert into Teach values (1057,5)
 
-exec dbo.searchbynameteacher 'Giang','name',0
+exec dbo.searchbynamestudent N'Thị','studenttype'
+
+
+create procedure searchbynamestudent
+(	@username NVARCHAR(30), 
+	@orderby NVARCHAR(30)
+)
+as
+begin try
+
+select username, sex,bdate,address, studenttype
+from Users, Student
+where (Users.username LIKE '%'+@username +'%') 
+and Users.userid = Student.studentid
+order by 
+	case @orderby
+	when 'gender' then Users.sex
+	when 'address' then Users.address
+	when 'name' then Users.username
+	when 'studenttype' then Student.studenttype
+	end;
+
+end try
+begin catch
+	select ERROR_MESSAGE() as error
+end catch
+
+
+
+
+select * from Student
+
 
 
 

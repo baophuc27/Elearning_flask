@@ -75,7 +75,7 @@ def create_app(config_name):
                 if (not User.query.addphone(db,name,phones)):
                     flash("Phones less than 9 digits")
                     return render_template("register.html")
-            return render_template("home.html")
+            return render_template("index.html")
 
     @app.route("/studentlist")
     def transferstudentlist():
@@ -107,6 +107,31 @@ def create_app(config_name):
             return render_template('studentlist.html')
         result = User.query.searchstudent(db,name,order)
         return render_template('studentlist.html',data=result)
+
+    
+    @app.route("/delbuttonstudent",methods=['GET'])
+    def deluserstudent():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to delete user')
+            return render_template('studentlist.html')
+        User.query.deleteuser(db,userid)
+        flash('Delete user success')
+        return render_template('studentlist.html')
+
+
+    @app.route("/delbuttonteacher",methods=['GET'])
+    def deluserteacher():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to delete user')
+            return render_template('teacherlist.html')
+        User.query.deleteuser(db,userid)
+        flash('Delete user success')
+        return render_template('teacherlist.html')
+
+
+    
 
     return app
 

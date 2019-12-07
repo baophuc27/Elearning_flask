@@ -109,4 +109,12 @@ class query():
         result = result.fetchall()
         return result
 
+    @staticmethod
+    def deleteuser(db,userid):
+        sql="delete from Users where (userid="+str(userid)+")"
+        connection=db.engine.connect()
+        trans=connection.begin()
+        connection.execute(sql)
+        trans.commit()
+
 
