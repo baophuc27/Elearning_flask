@@ -97,6 +97,17 @@ def create_app(config_name):
         result = User.query.searchteacher(db,name,order,range)
         return render_template('teacherlist.html',data=result)
 
+
+    @app.route("/searchstudent",methods=["POST"])
+    def searchstudent():
+        name = request.form['name']
+        order = request.form['order']
+        if name=='':
+            flash('Please fill out name to search')
+            return render_template('studentlist.html')
+        result = User.query.searchstudent(db,name,order)
+        return render_template('studentlist.html',data=result)
+
     return app
 
 

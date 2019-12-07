@@ -97,7 +97,14 @@ class query():
 
     @staticmethod 
     def searchteacher (db,name,orderby,range):
-        sql="exec dbo.searchbynameteacher \'"+name + "\',\'"+orderby+"\',"+str(range) 
+        sql="exec dbo.searchbynameteacher N\'"+name + "\',\'"+orderby+"\',"+str(range) 
+        result = db.engine.execute(sql)
+        result = result.fetchall()
+        return result
+
+    @staticmethod
+    def searchstudent (db,name,orderby):
+        sql="exec dbo.searchbynamestudent N\'"+name + "\',\'"+orderby+"\'"
         result = db.engine.execute(sql)
         result = result.fetchall()
         return result
