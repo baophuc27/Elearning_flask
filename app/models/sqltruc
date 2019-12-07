@@ -131,9 +131,9 @@ if exists( select * from users where uname=@name)
 	return 1;
 return 0;
 end;*/
-
 CREATE FUNCTION checkcanupdate
-(@username NVARCHAR(30),
+(@userid int,
+@username NVARCHAR(30),
 @sex CHAR(1),
 @bdate date,
 @address NVARCHAR(30))
@@ -145,10 +145,14 @@ if len(@username) < 3 OR len(@username)>30
 	return 0;
 if getdate() < @bdate
 	return 0
+
 if len(@address) > 30
 	return 0
+if exists (select * from Teacher where teacherid=@userid)
+begin
 if (year(getdate())-year(@bdate) <18)
 	return 0
+end
 return 1;
 end;
 
