@@ -179,7 +179,7 @@ begin catch
 	select ERROR_MESSAGE() as error
 end catch*/
 
-exec insertinphone 'd','0916465507'
+--exec insertinphone 'd','0916465507'
 
 /*CREATE TABLE Phone(
 	phoneid INT IDENTITY(1,1) NOT NULL,
@@ -188,4 +188,64 @@ exec insertinphone 'd','0916465507'
 	PRIMARY KEY (phoneid),
 );*/
 
-select * from users
+create procedure searchbynameteacher
+(	@username NVARCHAR(30), 
+	@orderby NVARCHAR(30),
+	@fromcount int
+)
+as
+begin try
+
+select * from(
+select username, sex,bdate,address, count(*) as totalcourse
+from Users, Teacher,Teach
+where (Users.username LIKE '%'+@username +'%') 
+and Teacher.teacherid = Users.userid and Teach.teacherid = Teacher.teacherid
+group by Teach.teacherid,username,sex,bdate,address
+having count(*) >= @fromcount
+
+union
+select username, sex,bdate,address, 0 as totalcourse
+from Users, Teacher
+where @fromcount=0 and (Users.username LIKE '%'+@username +'%') 
+and Teacher.teacherid = Users.userid and Teacher.teacherid not in (select teacherid from Teach)
+) t
+order by 
+	case @orderby
+	when 'gender' then t.sex
+	when 'address' then t.address
+	when 'name' then t.username
+	end;
+
+end try
+begin catch
+	select ERROR_MESSAGE() as error
+end catch
+
+exec dbo.insertinuser 'fdxxd','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Thiên Trúc'
+exec dbo.insertinuser 'fdxxde','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Trúc'
+exec dbo.insertinuser 'fdxexd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Anh Trúc'
+exec dbo.insertinuser 'fdx3xd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Hương Giang'
+exec dbo.insertinuser 'fd3xxd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thành Giang'
+
+select *from Teach
+
+exec dbo.insertinteacher 1056,NULL
+exec dbo.insertinteacher 1057,NULL
+exec dbo.insertinteacher 1058,NULL
+exec dbo.insertinteacher 1059,NULL
+exec dbo.insertinteacher 1060,NULL
+
+insert into Teach values (1056,1)
+insert into Teach values (1056,2)
+insert into Teach values (1056,3)
+insert into Teach values (1057,4)
+insert into Teach values (1057,5)
+
+exec dbo.searchbynameteacher 'Giang','name',0
+
+
+
+
+
+

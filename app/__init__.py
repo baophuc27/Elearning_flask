@@ -77,6 +77,25 @@ def create_app(config_name):
                     return render_template("register.html")
             return render_template("home.html")
 
+    @app.route("/studentlist")
+    def transferstudentlist():
+        return render_template("studentlist.html")
+
+    @app.route("/teacherlist")
+    def transferteacherlist():
+        return render_template("teacherlist.html")
+
+
+    @app.route("/searchteacher",methods=["POST"])
+    def searchteacher():
+        name = request.form['name']
+        order = request.form['order']
+        range = request.form['range']
+        if name=='' or range=='':
+            flash("Please fill out name and range to search!")
+            return render_template('teacherlist.html')
+        result = User.query.searchteacher(db,name,order,range)
+        return render_template('teacherlist.html',data=result)
 
     return app
 

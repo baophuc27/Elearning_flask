@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+            table, th, td {
+              border: 1px solid black;
+             
+            }
+            th,td {
+                padding: 15px;
+            }
+            table {
+                width:100%
+            }
+            </style>
+    <title>Student Search</title>
+    <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    type="text/css" />
+</head>
+<body style="padding-top: 10px">
+    <div class="col-xs-8 col-xs-offset-2">
+        <form id="form1" runat="server" class="form-horizontal" action="searchteacher" method="POST">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Teacher Search Form</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputFirstname" class="control-label col-xs-2">
+                            Name
+                        </label>
+                        <div class="col-xs-10">
+                            <input type="text" runat="server" class="form-control"
+                                id="inputname" name ="name" placeholder="Name" />
+                        </div>
+                    </div>
+
+                    <div style="padding-left: 75px;" >
+                        <p>Order by</p>
+                        <input type="radio" name="order" value="gender" checked="checked"> Gender<br>
+                        <input type="radio" name="order" value="address"> Address <br>
+                        <input type="radio" name="order" value="name"> Name <br><br>
+                       
+                     </div>
+
+
+                     <div class="form-group">
+                        <label for="inputrange" class="control-label col-xs-2">
+                            Course that teacher had been teached from:
+                        </label>
+                        <div class="col-xs-10">
+                            <input type="text" runat="server" class="form-control"
+                                id="inputrange" name ="range" placeholder="Range" />
+                        </div>
+                    </div>
+                    <div style="text-align: center;color:red;">
+                            {% with messages = get_flashed_messages() %}
+                               {% if messages %}
+                                  {% for messages in messages %}
+                                     <div>
+                                       {{messages}}
+                                     </div>        
+                                  {% endfor %}
+                               {% endif %}
+                            {% endwith %}
+                            <br>
+                         </div>
+                   
+                    <div class="form-group" style="width:fit-content ;color:blue; text-align: center;">
+                            <button type="submit" class=" btn btn-block send-button tx-tfm">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Search Results</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="col-xs-10">
+                        <asp:GridView CssClass="table table-bordered"
+                            ID="gvSearchResults" runat="server">
+                            <table>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Date of birth</th>
+                                    <th>Address</th>
+                                    <th>Total course that teached</th>
+                                </tr>
+                                
+                                {% for item in data %}
+                                <tr>
+                                    <th>{{item[0]}}</th>
+                                    <th>{{item[1]}}</th>
+                                    <th>{{item[2]}}</th>
+                                    <th>{{item[3]}}</th>
+                                    <th>{{item[4]}}</th>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </asp:GridView>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -26,7 +26,7 @@ class query():
         result = result.fetchone()
         print("RESULT {0}".format(result))
         return result
-        
+
     @staticmethod
     def checkifnameregisted(db,name):
         sql="select dbo.checknameregisted (\'"+name + "\')" 
@@ -94,5 +94,12 @@ class query():
                 connection.execute(sql)
                 trans.commit()
         return True
+
+    @staticmethod 
+    def searchteacher (db,name,orderby,range):
+        sql="exec dbo.searchbynameteacher \'"+name + "\',\'"+orderby+"\',"+str(range) 
+        result = db.engine.execute(sql)
+        result = result.fetchall()
+        return result
 
 
