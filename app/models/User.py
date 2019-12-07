@@ -39,13 +39,17 @@ class query():
 
     @staticmethod
     def createnewuser(db,uname,sex,bdate,address,password,username,role):
+
         if address=='':
             sql="exec dbo.insertinuser \'"+uname+"\',\'"+sex+"\',\'"+bdate+"\',NULL,\'"+password+"\',N\'"+username+"\'"
         else:
             sql="exec dbo.insertinuser \'"+uname+"\',\'"+sex+"\',\'"+bdate+"\',N\'"+address+"\',\'"+password+"\',N\'"+username+"\'"
         connection=db.engine.connect()
         trans=connection.begin()
-        connection.execute(sql)
+        try:
+            connection.execute(sql)
+        except:
+            return False
         trans.commit()
         # select id of new user
         sql="select userid from Users where (uname=\'"+uname+"\')"
@@ -60,7 +64,7 @@ class query():
         if role=='Student':
             sql="exec dbo.insertinstudent "+str(userid)+",'T',NULL,NULL"
         else:
-            sql="exec dbo.insertinteacher "+str(userid)+",NULL"
+            sql="exec dbo.insertinteacher "+str(userid)+",0"
         connection=db.engine.connect()
         trans=connection.begin()
         error=connection.execute(sql)
@@ -117,4 +121,38 @@ class query():
         connection.execute(sql)
         trans.commit()
 
+
+    @staticmethod
+    def getuname(db,userid):
+        sql = "select username from Users where (userid ="+str(userid)+")"
+        result = db.engine.execute(sql)
+        result = result.fetchone()[0]
+        return result
+
+
+    @staticmethod
+    def checkcanupdate(db,displayname,sex,birthday,address):
+        sql="select dbo.checkcanupdate (\'"+displayname+"\',\'"+sex+"\',\'"+birthday+"\',\'"+address+"\')"
+        result = db.engine.execute(sql)
+        result = result.fetchone()
+        if result[0] == True:
+            return True
+        else:
+            return False
+
+    @staticmethod
+    def update(db,userid,displayname,sex,birthday,address):
+        sql="exec dbo.updateuser "+str(userid)+",N\'"+displayname+"\',\'"+sex+"\',\'"+birthday+"\',N\'"+address+"\'"
+        connection=db.engine.connect()
+        trans=connection.begin()
+        connection.execute(sql)
+        trans.commit()
+
+        sql="select userid from Users where (userid="+str(userid)+")"
+        result=db.engine.execute(sql)
+        userid=result.fetchone()
+        if (userid is None):
+            return False
+        else:
+            return True
 

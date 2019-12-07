@@ -69,7 +69,11 @@ def create_app(config_name):
             phones = phones.split(',')
             #add phone vào
             if ( not User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)):
-                flash("Teacher must be over 18 years old")
+                flash("""Your display name must be greater than 3 and less than 30.\n 
+                Your username must be less than 20 and greater than 3.\n
+                Length of address must be less than 30.\n
+                Day of birthday must be less than now.\n
+                Teacher must be over 18 years old""")
                 return render_template("register.html")
             if phones!=['']:
                 if (not User.query.addphone(db,name,phones)):
@@ -129,6 +133,39 @@ def create_app(config_name):
         User.query.deleteuser(db,userid)
         flash('Delete user success')
         return render_template('teacherlist.html')
+
+
+    @app.route("/editbutton",methods=['GET'])
+    def edituser():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to edit user')
+            return render_template('home.html')
+        nameuser = User.query.getuname(db,userid)
+        return render_template('edit.html',data=nameuser,id=userid)
+
+    
+    @app.route("/edituser/",methods=['POST'])
+    def editupdateuser():
+        userid = request.args.get('data-id')
+        displayname = request.form['username']
+        sex = request.form['GENDER']
+        if sex =='Male':
+            sex= 'M'
+        else:
+            sex = 'F'
+        birthday = request.form['myDate']
+        address= request.form['address']
+        if (not User.query.checkcanupdate(db,displayname,sex,birthday,address)):
+            flash('Wrong information')
+            return render_template('home.html')
+        if not User.query.update(db,userid,displayname,sex,birthday,address):
+            flash('Teacher must be over 18')
+            return render_template('home.html')
+        flash('Edit success')
+        return render_template("edit.html")
+
+
 
 
     

@@ -14,8 +14,7 @@ alter table users
 add constraint uniqueuname
 unique (uname)*/
 
-
-/*create procedure insertinuser
+create procedure insertinuser
 (@uname VARCHAR(20),
 	@sex CHAR(1),
 	@bdate date,
@@ -23,12 +22,43 @@ unique (uname)*/
 	@password CHAR(32) ,
 	@username NVARCHAR(30) )
 as
-begin try
+
+begin 
+
+if len(@username) < 3
+begin
+raiserror('Length of Display name must be greather than 3',11,2)
+return;
+end
+if len(@username) > 30
+begin
+raiserror('Length of Display name must be less than 30',11,2)
+return;
+end
+if len(@uname) < 3
+begin
+raiserror('Length of uname must be greather than 3',11,2)
+select ERROR_MESSAGE()
+return;
+end
+if len(@uname) > 20
+begin
+raiserror('Length of uname must be less than 20',11,2)
+return;
+end
+if getdate()<@bdate
+begin
+raiserror('Day of birthday greater than now',11,2)
+return;
+end
+if len(@address)> 30
+begin
+raiserror('Length of address must be less than 30',11,2)
+return;
+end
+else
 insert into Users values (@uname,@sex,@bdate,@address,@password,@username);
-end try
-begin catch
-	select ERROR_MESSAGE() as error
-end catch*/
+end 
 
 /*create procedure insertinteacher
 (
@@ -102,20 +132,46 @@ if exists( select * from users where uname=@name)
 return 0;
 end;*/
 
+CREATE FUNCTION checkcanupdate
+(@username NVARCHAR(30),
+@sex CHAR(1),
+@bdate date,
+@address NVARCHAR(30))
+
+returns bit 
+as
+begin 
+if len(@username) < 3 OR len(@username)>30
+	return 0;
+if getdate() < @bdate
+	return 0
+if len(@address) > 30
+	return 0
+if (year(getdate())-year(@bdate) <18)
+	return 0
+return 1;
+end;
+
+
 
 
 /*alter table phone
 add constraint fk_phone_user_userid foreign key (userid)
 references users(userid)
+on delete cascade on update cascade 
 alter table Student
 add constraint fk_student_user_studentid foreign key (studentid)
 references users(userid)
+on delete cascade on update cascade 
+
 alter table Document 
 add constraint fk_document_lesson_courseid foreign key (courseid,lid)
 references Lesson(courseid,lid)
 alter table Teacher
 add constraint fk_teacher_user_teacherid foreign key (teacherid)
 references users(userid)
+on delete cascade on update cascade 
+
 alter table Student 
 add constraint dk_student_course_trialid foreign key (trialid)
 references course(courseid)*/
@@ -188,7 +244,7 @@ end catch*/
 	PRIMARY KEY (phoneid),
 );*/
 
-create procedure searchbynameteacher
+/*create procedure searchbynameteacher
 (	@username NVARCHAR(30), 
 	@orderby NVARCHAR(30),
 	@fromcount int
@@ -197,15 +253,15 @@ as
 begin try
 
 select * from(
-select username, sex,bdate,address, count(*) as totalcourse
+select username, sex,bdate,address, count(*) as totalcourse,Users.userid
 from Users, Teacher,Teach
 where (Users.username LIKE '%'+@username +'%') 
 and Teacher.teacherid = Users.userid and Teach.teacherid = Teacher.teacherid
-group by Teach.teacherid,username,sex,bdate,address
+group by Teach.teacherid,username,sex,bdate,address,Users.userid
 having count(*) >= @fromcount
 
 union
-select username, sex,bdate,address, 0 as totalcourse
+select username, sex,bdate,address, 0 as totalcourse,Users.userid
 from Users, Teacher
 where @fromcount=0 and (Users.username LIKE '%'+@username +'%') 
 and Teacher.teacherid = Users.userid and Teacher.teacherid not in (select teacherid from Teach)
@@ -220,7 +276,8 @@ order by
 end try
 begin catch
 	select ERROR_MESSAGE() as error
-end catch
+end catch*/
+
 
 exec dbo.insertinuser 'fdxxeeed','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị Hương'
 exec dbo.insertinuser 'fdxxeeede','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Mai'
@@ -251,14 +308,14 @@ insert into Teach values (1057,5)
 exec dbo.searchbynamestudent N'Thị','studenttype'
 
 
-create procedure searchbynamestudent
+/*create procedure searchbynamestudent
 (	@username NVARCHAR(30), 
 	@orderby NVARCHAR(30)
 )
 as
 begin try
 
-select username, sex,bdate,address, studenttype
+select username, sex,bdate,address, studenttype,userid
 from Users, Student
 where (Users.username LIKE '%'+@username +'%') 
 and Users.userid = Student.studentid
@@ -273,16 +330,30 @@ order by
 end try
 begin catch
 	select ERROR_MESSAGE() as error
-end catch
+end catch*/
+
+drop procedure searchbynamestudent
+
+
+select * from Users
+select  * from Teacher
 
 
 
-
-select * from Student
-
-
-
-
+create procedure updateuser
+(	
+@userid int,
+@username NVARCHAR(30), 
+@sex char(1),
+@bdate date,
+@address NVARCHAR(30)
+)
+as
+begin
+update Users
+set username = @username ,sex=@sex, bdate = @bdate,address=@address
+where userid = @userid
+end
 
 
 

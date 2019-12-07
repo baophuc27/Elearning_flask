@@ -1,0 +1,79 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Update user</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+        <form class="form-horizontal" action="/edituser/?data-id={{id}}" method="POST">
+                <fieldset>
+        <legend>UPDATING USER {{data}} INFORMATION</legend>
+      
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="username">DISPLAY NAME</label>  
+          <div class="col-md-4">
+          <input id="pname" name="username" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+        
+        <!-- Select Basic -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="GENDER">SEX</label>
+          <div class="col-md-4">
+            <select id="PTYPE" name="GENDER" class="form-control">
+              <option value="Male" selected="select">Male</option>
+              <option value="Female">Female</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="myDate">BIRTHDAY</label>  
+          <div class="col-md-4">
+                <input type="date" name="myDate" value="2014-02-09">
+          </div>
+        </div>
+        
+        <!-- Text input-->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="address">ADDRESS</label>  
+          <div class="col-md-4">
+          <input id="KKKO" name="address" type="text" placeholder="" class="form-control input-md" required="">
+            
+          </div>
+        </div>
+        <div style="text-align: center;color:red;">
+                {% with messages = get_flashed_messages() %}
+                   {% if messages %}
+                      {% for messages in messages %}
+                         <div>
+                           {{messages}}
+                         </div>        
+                      {% endfor %}
+                   {% endif %}
+                {% endwith %}
+                <br>
+             </div>
+        
+        <!-- Button (Double) -->
+        <div class="form-group">
+          <label class="col-md-4 control-label" for="button1idFFF"></label>
+          <div class="col-md-8">
+            <button id="button1idFFF" name="button1idFFF" class="btn btn-success" > UPDATE</button>
+          </div>
+        </div>
+        
+        </fieldset>
+        </form>
+        
+</body>
+</html>
