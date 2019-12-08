@@ -385,7 +385,9 @@ def create_app(config_name):
         raw = json.dumps(lst)
         data = json.loads(raw)
         return render_template("searchCondition.html", data = data)
-
+    @app.route("/enroll")
+    def enroll():
+        return render_template("enroll.html")
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'),404

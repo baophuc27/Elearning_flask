@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Course: {{session['courseid']}}</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<link rel="icon" href="{{ url_for('static', filename='img/banner.png')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/dicussion.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/enroll.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+</head>
+<body>
+    
+
+	<div class="header">
+		<h2 class="logo">P2NT E-Learning</h2>
+		<input type="checkbox" id="chk">
+		<label for="chk" class="show-menu-btn">
+		  <i class="fas fa-ellipsis-h"></i>
+		</label>
+		
+		<ul class="menu">
+			<a href="/course">Courses</a>
+			<a href="/topic">Topics</a>
+			<a href="/curriculum">Curriculum</a>
+			<a href="/editbutton?data-id={{session['userid']}}">Edit</a>
+			<a href="/studentlist">List Students</a>
+			<a href="/teacherlist">List Teacher</a>
+		  <label for="chk" class="hide-menu-btn">
+			<i class="fas fa-times"></i>
+		  </label>
+		</ul>
+	  </div>
+<div class="container">
+</div>
+<div class="course-preview premium-course">
+	<div class="course-image">
+		<a href="https://demo.themex.co/academy/course/digital-photography"><img width="420" height="420" src="https://demo.themex.co/academy/wp-content/uploads/2013/02/image_50-420x420.jpg" class="attachment-normal wp-post-image" alt="image_50"></a>
+				<div class="course-price product-price">
+			<div class="price-text"><span class="amount">$142</span></div>
+			<div class="corner-wrap">
+				<div class="corner"></div>
+				<div class="corner-background"></div>
+			</div>			
+		</div>
+			</div>
+	<div class="course-meta">
+		<header class="course-header">
+			<h5 class="nomargin"><a href="https://demo.themex.co/academy/course/digital-photography">Digital Photography</a></h5>
+						<a href="https://demo.themex.co/academy/profile/mitch" class="author">Michael Lawson</a>
+					</header>
+				<footer class="course-footer clearfix">
+						<div class="course-users left">
+				12			</div>
+									<div class="course-rating rating-form">
+	<div data-score="3" data-readonly="true" title="" style="cursor: default; width: auto;"><img src="https://demo.themex.co/academy/wp-content/themes/academy//images/star-on.png" alt="1" title=""><img src="https://demo.themex.co/academy/wp-content/themes/academy//images/star-on.png" alt="2" title=""><img src="https://demo.themex.co/academy/wp-content/themes/academy//images/star-on.png" alt="3" title=""><img src="https://demo.themex.co/academy/wp-content/themes/academy//images/star-off.png" alt="4" title=""><img src="https://demo.themex.co/academy/wp-content/themes/academy//images/star-off.png" alt="5" title=""><input type="hidden" name="score" value="3" readonly="readonly"></div>
+	</div>					</footer>
+			</div>
+</div>
+</body>
+</html>

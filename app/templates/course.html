@@ -18,7 +18,7 @@
             {%for i in data %} 
                 <p></p>
                 <li title="{{i.cdesc}}"><b><a href = "/lesson?data-id={{i.courseId}}" id = {{i.courseId}} class = "lstCoursename">{{i.cname}}</a></b></li>
-                <a href="#" class="btn btn-success">ĐĂNG KÍ</a>
+                <a href="/enroll" class="btn btn-success">ĐĂNG KÍ</a>
                 <a href="/getlistdicussion?courseid={{i.courseId}}" class="btn btn-success">DICUSSION</a>
                 <a href="/examination?courseid={{i.courseId}}" class="btn btn-success">Examination</a>
                 <p style="font-size: 20px;" class = "lstCoursename1">{{i.price}} VNĐ</p>

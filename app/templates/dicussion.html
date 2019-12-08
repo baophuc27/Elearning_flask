@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Course: {{session['courseid']</title>
+    <title>Course: {{session['courseid']}}</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -26,12 +26,12 @@
 		</label>
 		
 		<ul class="menu">
-		  <a href="/main">Home</a>
-		  <a href="/course">Courses</a>
-		  <a href="/topic">Topics</a>
-		  <a href="/curriculum">Curriculum</a>
-		  <a href="#">List Teachers</a>
-		  <a href="#">List Students</a>
+			<a href="/course">Courses</a>
+			<a href="/topic">Topics</a>
+			<a href="/curriculum">Curriculum</a>
+			<a href="/editbutton?data-id={{session['userid']}}">Edit</a>
+			<a href="/studentlist">List Students</a>
+			<a href="/teacherlist">List Teacher</a>
 		  <label for="chk" class="hide-menu-btn">
 			<i class="fas fa-times"></i>
 		  </label>
