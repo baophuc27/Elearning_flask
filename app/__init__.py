@@ -86,7 +86,7 @@ def create_app(config_name):
     @app.route("/fetchExam")
     def fetchExam():
         courseID=request.args.get('courseID')
-        result=Examination.query.getAllExam(db,1012345)
+        result=Examination.query.getAllExam(db,courseID)
         listExam = [[x[0],x[1],x[2]] for x in result]
         data = {
             'name':'Examination',
@@ -101,15 +101,12 @@ def create_app(config_name):
 
     @app.route("/insertExam",methods=['POST'])
     def insertExam():
-        courseID=request.args.get('courseID')
-        result=Examination.query.createExam(db,1012345)
-        listExam = [[x[0],x[1],x[2]] for x in result]
-        data = {
-            'name':'Examination',
-            'listExam': listExam
-        }
+        courseID=request.form['courseID']
+        examID=request.form['examID']
+        print(courseID,examID)
+        result=Examination.query.createExam(db,courseID,examID)
         response = app.response_class(
-            response=json.dumps(data),
+            response=json.dumps(result),
             status=200,
             mimetype='application/json'
         )
@@ -130,6 +127,49 @@ def create_app(config_name):
             mimetype='application/json'
         )
         return response
+    @app.route("/examDetail")
+    def examDetail():
+        examid=request.args.get('id')
+        return render_template("examdetail.html",exam=examid)
+    @app.route("/fetchQuestion")
+    def fetchQuestion():
+        examid=request.args.get('examID')
+        result=Examination.query.getAllQuestion(db,examid)
+        listExam = [[x[0],x[1],x[2],x[3]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+    @app.route("/insertQuestion",methods=['POST'])
+    def insertQuestion():
+        examID=request.form['examID']
+        content=request.form['content']
+        mark=request.form['mark']
+        qid=request.form['qid']
+        result=Examination.query.createQuestion(db,qid,content,mark,examID)
+        response = app.response_class(
+            response=json.dumps(result),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/modifyQuestion",methods=['POST'])
+    def modifyQuestion():
+        qid=request.form['qid']
+        content=request.form['content']
+        mark=request.form['mark']
+        result=Examination.query.modifyQuestion(db,qid,content,mark)
+        response = app.response_class(
+            response=json.dumps(result),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
     return app
-
-

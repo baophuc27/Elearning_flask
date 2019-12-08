@@ -3,7 +3,7 @@ use elearning
 Go;
 -- Ca Nhan 
 --  1/ procedure insert options
-IF OBJECT_ID('ins_option') IS NOT NULL DROP PROCEDURE ins_option
+IF OBJECT_ID('danhsachCauHoiCuaKiThi') IS NOT NULL DROP PROCEDURE danhsachCauHoiCuaKiThi
 GO
 CREATE PROCEDURE ins_option
     @QuestionID CHAR(8),
@@ -50,6 +50,52 @@ EXEC ins_option  @QuestionID = 'cauhoi01',
     @Content = N'Đây là mộy là mộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot options',
     @res = 'T';
 GO;
+
+CREATE PROCEDURE ins_question
+    @QuestionID CHAR(8),
+    @Content NVARCHAR(500),
+    @mark Int,
+    @examID CHAR(5)
+AS
+BEGIN
+    IF EXISTS (SELECT *
+    FROM Question
+    WHERE qid = @QuestionID)
+        BEGIN
+        RAISERROR(N'Lỗi: mã câu hỏi đã có trong cơ sở dữ liệu',11,1)
+        Return
+    END
+    IF NOT EXISTS (SELECT *
+    FROM Examination
+    WHERE eid = @examID)
+    BEGIN
+        RAISERROR(N'Lỗi: Bài thi này chưa có trong trong cơ sở dữ liệu',11,1)
+        Return
+    END
+    IF len(@Content)>300
+    BEGIN
+        RAISERROR(N'Lỗi:câu hỏi quá dài, phải không quá 300 kí tự',11,1)
+        Return
+    END
+    IF @mark < 0 
+    BEGIN
+        RAISERROR(N'Lỗi: không đúng giá trị cần nhập, phải lớn hơn 0',11,1)
+        Return
+    END   
+    ELSE 
+    BEGIN
+        insert into Question
+            (qid,content,mark,examid)
+        VALUES
+            (@QuestionID, @Content, @mark, @examID);
+    END
+END;
+GO;
+
+EXEC ins_question  @QuestionID = 'Q01',
+    @Content = N'Đây là một câu hỏi',
+    @mark =3,
+    @examID = 'exa11';
 -- ALTER TABLE Examination add totalMark int
 -- DEFAULT
 -- (0);
@@ -146,14 +192,24 @@ begin
     select Question.qid, COUNT(Options.onumber) as soLuaChon
     from Question JOIN Options on Question.qid=Options.qid
     WHERE Question.examid=@makythi
-    GROUP BY Question.qid
+    GROUP BY Question.qid,Options.onumber
     HAVING COUNT(Options.onumber)<2
 end
 GO;
-EXEC danhsachCauHoiChiMotLuaChon @makythi='exam3'
+EXEC danhsachCauHoiChiMotLuaChon @makythi='exa10'
 GO;
 
+-- procedure 3 xem danh sách đáp án của bài thi
+create procedure danhsachCauHoiCuaKiThi(@makythi CHAR(5))
+as
+begin
 
+    select Question.qid, Question.content as question, Options.content as answer, Question.mark as mark
+    from Question Full outer JOIN Options on Question.qid=Options.qid
+    WHERE Question.examid=@makythi and (Options.result='T' or Options.result is NULL)
+end
+EXEC danhsachCauHoiCuaKiThi @makythi='exa10'
+GO;
 
 -- 4/ Create Function  1
 CREATE FUNCTION tinhDiemCauTraLoi

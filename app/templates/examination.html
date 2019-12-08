@@ -16,21 +16,19 @@
 
 <body>
     <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
-        <div class="container"><a class="navbar-brand" href="#">Brand</a><button data-toggle="collapse"
+        <div class="container"><a class="navbar-brand" href="/">P2NT Elearning</a><button data-toggle="collapse"
                 data-target="#navbarResponsive" class="navbar-toggler"><span
                     class="navbar-toggler-icon"></span></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="nav navbar-nav ml-auto">
-                    <li role="presentation" class="nav-item"><a class="nav-link" href="#">Sign Up</a></li>
-                    <li role="presentation" class="nav-item"><a class="nav-link" href="#">Log In</a></li>
                 </ul>
             </div>
         </div>
     </nav>
     <div class="main">
         <!-- Nav tabs -->
-        <h2>Khóa học: {{course}}</h2>
-        <ul class="nav nav-tabs" role="tablist">
+        <h2>Khóa học: <span id="course-name">{{course}}</span></h2>
+        <!--<ul class="nav nav-tabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link active" data-toggle="tab" href="#menu1">Danh sách Bài Thi</a>
             </li>
@@ -43,7 +41,7 @@
             <li class="nav-item">
                 <a class="nav-link" data-toggle="tab" href="#menu4">Menu 2</a>
             </li>
-        </ul>
+        </ul> -->
 
         <!-- Tab panes -->
         <div class="tab-content">
@@ -51,9 +49,9 @@
                 <h3>Danh Sách Bài Thi</h3>
                 <div class="form-group">
                     <label for="mabaithi">Mã bài thi:</label>
-                    <input type="text"" class=" form-control" id="mabaithi" name="mabaithi">
+                    <input type="text"" class=" form-control" required="required" id="mabaithi" name="mabaithi">
                 </div>
-                <button type="submit" class="btn btn-primary">Create</button>
+                <button class="btn btn-primary" onclick="createExam('{{course}}')">Create</button>
                 <div>
                     <table id="myTable" class="table table-striped table-bordered table-sm" cellspacing="0"
                         width="100%">
@@ -67,16 +65,14 @@
                                 </th>
                                 <th class="th-sm">Detail
 
-                                </th>
-                                <th class="th-sm">Modify
 
                                 </th>
                                 <th class="th-sm">Delete
-
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
+                            <tr></tr>
                         </tbody>
                     </table>
                 </div>
@@ -84,12 +80,12 @@
             <div id="menu2" class="container tab-pane fade"><br>
                 <h3>MENU 0</h3>
                 <div>
-                    <form action="/handleExam" method="post" id="handleExam">
+                    <form>
                         <div class="form-group">
                             <label for="mabaithi">Mã bài thi:</label>
-                            <input type="text"" class=" form-control" id="mabaithi" name="mabaithi">
+                            <input type="text" class=" form-control" id="mabaithi" name="mabaithi">
                         </div>
-                        <button type="submit" class="btn btn-primary">Create</button>
+                        <button class="btn btn-primary" onclick="createExam()">Create</button>
                     </form>
                 </div>
             </div>
