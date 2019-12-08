@@ -5,10 +5,6 @@ class Users():
         self.sex=sex
         self.bdate=bdate
         self.username=username
-<<<<<<< HEAD
-=======
-
->>>>>>> trucdatabase
 class query():
     @staticmethod
     def getNameandPass(db,name,password):
@@ -69,18 +65,6 @@ class query():
         connection=db.engine.connect()
         trans=connection.begin()
         error=connection.execute(sql)
-<<<<<<< HEAD
-        trans.commit()
-        
-        sql="select userid from Users where (userid="+str(userid)+")"
-        result=db.engine.execute(sql)
-        userid=result.fetchone()
-        if (userid is None):
-            return False
-        else:
-            return True
-    
-=======
         trans.commit()
         
         sql="select userid from Users where (userid="+str(userid)+")"
@@ -184,4 +168,3 @@ class query():
         connection.execute(sql)
         trans.commit()
 
->>>>>>> trucdatabase
