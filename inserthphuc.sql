@@ -63,11 +63,11 @@ values('ex305', 1003, 0)
 insert into Question
     (qid,content,mark,examid)
 values
-    ('Q001', N'Khi muốn nói về sóng âm, phát biểu nào sau đây là sai?', 2, 'ex001')
+    ('Q501', N'Vùng núi Đông Bắc ;à nơi lạnh nhất nước ta, nguyên nhân là', 2, 'ex001')
 insert into Question
     (qid,content,mark,examid)
 values
-    ('Q002', N'Đối với âm cơ bản và họa âm thứ hai do cùng một cây đàn phát ra thì', 5, 'ex001')
+    ('Q502', N'Do tác động của gió mà Đông Bắc nên nửa đầu mùa đông ở miền Bắc nước ta thường có kiểu thời tiết:', 5, 'ex001')
 insert into Question
     (qid,content,mark,examid)
 values

@@ -52,4 +52,11 @@ class query():
         except:
             return {'message': 'trùng question id'}
 
-
+    @staticmethod
+    def deteleExam(db,qid):
+        try:
+            sql="delete from Question where qid='"+str(qid)+"'"
+            result = db.engine.execute(sql)
+            return {'message': 'delete success'}
+        except:
+            return {'message': 'trùng question id'}

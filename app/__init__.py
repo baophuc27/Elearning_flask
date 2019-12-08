@@ -172,4 +172,16 @@ def create_app(config_name):
             mimetype='application/json'
         )
         return response
+    @app.route("/questionDelete")
+    def questionDelete():
+        qid=request.args.get('id')
+        result=Examination.query.deteleExam(db,qid)
+        print(result)
+        data = result
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
     return app

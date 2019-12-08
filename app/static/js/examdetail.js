@@ -87,6 +87,7 @@ function createQuestion(name) {
 }
 function modifyQuestion(id, c, m) {
   document.getElementById("myForm").style.display = "block";
+  $(".main").css("opacity", "0.15");
   $("#qid").text(id);
   $("#Content").val(c);
   $("#mark").val(m);
@@ -110,6 +111,8 @@ function confirmModify() {
     },
     function(data, status) {
       alert("Status: " + data.message);
+      document.getElementById("myForm").style.display = "none";
+      $(".main").css("opacity", "1");
       fetchQuestion();
     }
   );
@@ -117,4 +120,18 @@ function confirmModify() {
 }
 function closeForm() {
   document.getElementById("myForm").style.display = "none";
+  $(".main").css("opacity", "1");
+}
+
+function deleteQuestion(id) {
+  $.ajax({
+    url: "/questionDelete?id=" + id,
+    type: "GET",
+    dataType: "json",
+    success: function(data) {
+      console.log(data);
+      alert(data.action);
+      fetchQuestion();
+    }
+  });
 }

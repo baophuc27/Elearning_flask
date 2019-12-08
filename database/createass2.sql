@@ -1,6 +1,7 @@
 
 create database elearning;
 use elearning;
+delete from options;
 CREATE TABLE Users
 (
 	userid int IDENTITY(1,1) NOT NULL,
@@ -142,7 +143,6 @@ CREATE TABLE Examination
 	totalMark INT,
 	PRIMARY KEY (eid),
 );
--- ALTER TABLE Examination ADD CONSTRAINT fk_course_exam FOREIGN KEY (courseid) REFERENCES Course(courseid);
 CREATE TABLE Exam
 (
 	examid CHAR(5) NOT NULL,
@@ -151,7 +151,6 @@ CREATE TABLE Exam
 	PRIMARY KEY (examid,userid),
 );
 
-ALTER TABLE Exam ADD CONSTRAINT fk_user_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
 
 CREATE TABLE Question
 (
@@ -161,17 +160,9 @@ CREATE TABLE Question
 	examid CHAR(5) NOT NULL,
 	PRIMARY KEY (qid),
 );
-ALTER TABLE question ADD CONSTRAINT fk_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
 
--- CREATE TABLE ExaminationQuestion
--- (
--- 	eid CHAR(5) NOT NULL,
--- 	qid CHAR(8) NOT NULL,
--- 	PRIMARY KEY (eid,qid),
--- );
--- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_examq FOREIGN KEY (qid) REFERENCES Question(qid);
--- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_exame FOREIGN KEY (eid) REFERENCES Examination(eid);
-
+CREATE  INDEX question_index
+ON Question(qid);
 
 CREATE TABLE Options
 (
@@ -184,7 +175,6 @@ CREATE TABLE Options
 
 
 
-ALTER TABLE Options ADD CONSTRAINT fk_op_question FOREIGN KEY (qid) REFERENCES Question(qid);
 
 CREATE TABLE ExamOption
 (
@@ -196,5 +186,8 @@ CREATE TABLE ExamOption
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
 
+ALTER TABLE Exam ADD CONSTRAINT fk_user_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
+ALTER TABLE question ADD CONSTRAINT fk_exam FOREIGN KEY (examid) REFERENCES Examination(eid) ON DELETE CASCADE;
+ALTER TABLE Options ADD CONSTRAINT fk_op_question FOREIGN KEY (qid) REFERENCES Question(qid)  ON DELETE CASCADE;
 ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_exam FOREIGN KEY (eid,studentid) REFERENCES Exam(examid,userid);
 ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_question FOREIGN KEY (qid,onumber) REFERENCES Options(qid,onumber);

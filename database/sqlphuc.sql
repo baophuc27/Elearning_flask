@@ -1,10 +1,10 @@
 use company
 use elearning
 Go;
+drop procedure danhsachCauHoiChiMotLuaChon;
+delete from Options;
 -- Ca Nhan 
 --  1/ procedure insert options
-IF OBJECT_ID('danhsachCauHoiCuaKiThi') IS NOT NULL DROP PROCEDURE danhsachCauHoiCuaKiThi
-GO
 CREATE PROCEDURE ins_option
     @QuestionID CHAR(8),
     @OptionID CHAR(3),
@@ -45,10 +45,14 @@ BEGIN
     END
 END;
 GO;
-EXEC ins_option  @QuestionID = 'cauhoi01',
-    @OptionID = '008',
-    @Content = N'Đây là mộy là mộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot optioộây iot options',
+EXEC ins_option  @QuestionID = 'Q501',
+    @OptionID = '004',
+    @Content = N'thấp dần từ Bắc xuống Nam',
     @res = 'T';
+EXEC ins_option  @QuestionID = 'Q502',
+    @OptionID = '005',
+    @Content = N'Nằm xa Xích đạo nhất cả nước ',
+    @res = 'F';
 GO;
 
 CREATE PROCEDURE ins_question
@@ -92,14 +96,21 @@ BEGIN
 END;
 GO;
 
-EXEC ins_question  @QuestionID = 'Q01',
-    @Content = N'Đây là một câu hỏi',
+EXEC ins_question  @QuestionID = 'Qs1',
+    @Content = N'Mức cường độ âm nào đạt đến ngưỡng đau, tất cả các tần số âm đều gây cho tai người cảm giác đau',
     @mark =3,
-    @examID = 'exa11';
+    @examID = 'Ex001';
+
+EXEC ins_question  @QuestionID = 'Qs2',
+    @Content = N'Khi muốn nói về sóng âm, phát biểu nào sau đây là sai?',
+    @mark =5,
+    @examID = 'Ex002';
+
+
 -- ALTER TABLE Examination add totalMark int
 -- DEFAULT
 -- (0);
-
+go;
 -- 2/ trigger 1
 CREATE TRIGGER trg_after_ins_question
 ON  Question
@@ -120,6 +131,9 @@ BEGIN
     )
 END
 GO;
+
+delete from Question where qid='Qs1'
+delete from Question where qid='Qs2'
 -- trigger 2
 use elearning;
 GO;
@@ -180,7 +194,8 @@ begin
     ORDER BY Question.qid
 end;
 GO;
-EXEC danhsachCauTraLoi @makythi='exam3'
+EXEC danhsachCauTraLoi @makythi='ex001',
+@mahocvien = 100002
 ,
 @mahocvien=312314214
 GO;
@@ -192,11 +207,11 @@ begin
     select Question.qid, COUNT(Options.onumber) as soLuaChon
     from Question JOIN Options on Question.qid=Options.qid
     WHERE Question.examid=@makythi
-    GROUP BY Question.qid,Options.onumber
+    GROUP BY Question.qid
     HAVING COUNT(Options.onumber)<2
 end
 GO;
-EXEC danhsachCauHoiChiMotLuaChon @makythi='exa10'
+EXEC danhsachCauHoiChiMotLuaChon @makythi='ex001'
 GO;
 
 -- procedure 3 xem danh sách đáp án của bài thi
@@ -208,9 +223,13 @@ begin
     from Question Full outer JOIN Options on Question.qid=Options.qid
     WHERE Question.examid=@makythi and (Options.result='T' or Options.result is NULL)
 end
-EXEC danhsachCauHoiCuaKiThi @makythi='exa10'
+Go;
+EXEC danhsachCauHoiCuaKiThi @makythi='ex001';
 GO;
 
+select Question.qid, Question.content as question, Options.content as answer, Question.mark as mark
+from Question Full outer JOIN Options on Question.qid=Options.qid
+WHERE Question.examid='ex001' and (Options.result='T' or Options.result is NULL)
 -- 4/ Create Function  1
 CREATE FUNCTION tinhDiemCauTraLoi
 ( @masv int , @makithi CHAR(5),@macauhoi CHAR(8), @madapan CHAR(3))
@@ -238,8 +257,26 @@ BEGIN
 END;
 GO;
 
-select dbo.tinhDiemCauTraLoi('ABCD000001','exam3','cauhoi13','002');
+
+
+
+
+
+
+select dbo.tinhDiemCauTraLoi(100002,'ex001','Q501','004');
+select dbo.tinhDiemCauTraLoi(100002,'ex001','Q502','005');
+
+
+
+
+
+
+
+
 GO;
+
+drop FUNCTION tinhDiemTruocThoiDiem
+go;
 -- function 2
 CREATE FUNCTION tinhDiemTruocThoiDiem
 (@mauser int,@makithi CHAR(5),@hanchot DATETIME)
@@ -251,7 +288,7 @@ BEGIN
     select @thoigiannopbai = takentime
     from Exam
     where userid=@mauser and examid=@makithi
-    if @thoigiannopbai > @hanchot
+    if DATEDIFF(DAY, @thoigiannopbai,@hanchot) > 0
     BEGIN
         set @result = -1
     END
@@ -274,7 +311,27 @@ BEGIN
 END;
 GO;
 
-select dbo.tinhDiemTruocThoiDiem('ABCD000003', 'exam5', '2019-12-08 12:40:29')
+
+
+
+select dbo.tinhDiemTruocThoiDiem(100002, 'ex001', '2019-12-12 5:40:29')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 use elearning
 SELECT *
 from dbo.Examination
