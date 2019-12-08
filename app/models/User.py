@@ -130,6 +130,7 @@ class query():
         return result
 
     
+    
     @staticmethod
     def getunamelogin(db,userid):
         sql = "select uname from Users where (userid ="+str(userid)+")"
@@ -171,3 +172,9 @@ class query():
         connection.execute(sql)
         trans.commit()
 
+    @staticmethod
+    def getrole(db,userid):
+        sql="select * from Teacher where (teacherid="+str(userid)+")"
+        result = db.engine.execute(sql)
+        result = result.fetchone()
+        return result

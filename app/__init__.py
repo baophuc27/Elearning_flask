@@ -138,9 +138,14 @@ def create_app(config_name):
     @app.route("/editbutton",methods=['GET'])
     def edituser():
         userid = request.args.get('data-id')
+        role = User.query.getrole(db,userid)
         if (session[0].uname)!='admin':
-            flash('You dont have permission to edit user')
-            return render_template('home.html')
+            if (role is None):
+                flash('You dont have permission to edit user')
+                return render_template('studentlist.html')
+            else:
+                flash('You dont have permission to edit user')
+                return render_template('teacherlist.html')
         nameuser = User.query.getuname(db,userid)
         return render_template('edit.html',data=nameuser,id=userid)
 
