@@ -8,13 +8,33 @@
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <link rel="stylesheet" href="{{url_for('static',filename='css/dicussion.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='js/dicussion.js')}}">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
 <body>
     
-
+	<div class="header">
+		<h2 class="logo">P2NT E-Learning</h2>
+		<input type="checkbox" id="chk">
+		<label for="chk" class="show-menu-btn">
+		  <i class="fas fa-ellipsis-h"></i>
+		</label>
+		
+		<ul class="menu">
+		  <a href="/main">Home</a>
+		  <a href="/course">Courses</a>
+		  <a href="/topic">Topics</a>
+		  <a href="/curriculum">Curriculum</a>
+		  <a href="#">List Teachers</a>
+		  <a href="#">List Students</a>
+		  <label for="chk" class="hide-menu-btn">
+			<i class="fas fa-times"></i>
+		  </label>
+		</ul>
+	  </div>
 
 <div class="container">
 	<div class="row">
@@ -27,7 +47,7 @@
 					<div class="comment-avatar"><img src="https://is3-ssl.mzstatic.com/image/thumb/Purple127/v4/f5/ca/fd/f5cafd96-f3a4-8ec1-37b0-2e82f8bdea77/source/512x512bb.jpg" alt=""></div>
 					<div class="comment-box">
 						<div class="comment-head">
-							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{dicuss.username}}</a></h6>
+							<h6 class="comment-name by-author"><a href="#">{{dicuss.username}}</a></h6>
 							<span>{{dicuss.startdate}}   </span>
 							<span style="padding-left: 10px">   DicussionID: {{dicuss.dicid}}</span>
 							<!-- <i class="fa fa-reply"></i> -->
@@ -44,7 +64,7 @@
 						<div class="comment-avatar"><img src="https://is3-ssl.mzstatic.com/image/thumb/Purple127/v4/f5/ca/fd/f5cafd96-f3a4-8ec1-37b0-2e82f8bdea77/source/512x512bb.jpg" alt=""></div>
 						<div class="comment-box">
 							<div class="comment-head">
-								<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{i.username}}</a></h6>
+								<h6 class="comment-name by-author"><a href="#">{{i.username}}</a></h6>
 								<span>{{i.time}}</span>
 								<a href="/deletecomment?commentid={{i.commentid}}"><i class="fa fa-trash"></i></a> 
 							</div>
@@ -78,12 +98,7 @@
 	<div class="row commentform" hidden>
 			<form role="form" id="contact-form" class="contact-form" action="addcomment">
 						<div class="row">
-							<div class="col-md-6">
-							  <div class="form-group">
-								<input type="text" class="form-control" name="userid" autocomplete="off" id="userid" placeholder="Userid">
-							  </div>
-						  </div>
-							<div class="col-md-6">
+							<div class="col-md-4">
 							  <div class="form-group">
 								<input type="text" class="form-control" name="dicid" autocomplete="off" id="dicid" placeholder="DiccussionID">
 							  </div>

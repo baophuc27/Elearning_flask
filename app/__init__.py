@@ -35,9 +35,6 @@ def create_app(config_name):
                 tmpuser= User.Users(information[0],information[1],information[2],information[3],information[6])
                 session['user']=tmpuser.__dict__
                 session['userid']=information[0]
-                print("-----")
-                print(session['userid'])
-                print(session['user']['uname'])
                 return render_template("main.html")
             else:
                 flash("Wrong username or password")
@@ -56,7 +53,6 @@ def create_app(config_name):
                 flash("Must be fill out username and password!")
                 return render_template("register.html")
             password=hashlib.md5(password.encode("utf-8")).hexdigest()
-            ###check if username had been registed
             if User.query.checkifnameregisted(db,name):
                 flash("User had been registed. Please choose another name!")
                 return render_template("register.html")
@@ -149,10 +145,12 @@ def create_app(config_name):
     
     @app.route("/adddicussion")
     def addDicussion():
-        userid=request.args.get('userid')
+        userid=session['userid']
         courseid=request.args.get('courseid')
         content=request.args.get('content')
         session['courseid']=courseid
+        if not Course.Query.checkCourse(db,courseid):
+            abort(404)
         Dicussion.query.addDicussion(db,userid,courseid,content)
         dicussion_list=[]
         dicussion_list=Dicussion.query.getDicussionList(db,courseid)
@@ -164,6 +162,8 @@ def create_app(config_name):
     def getListDicussion():
         courseid=request.args.get('courseid')
         session['courseid']=courseid
+        if not Course.Query.checkCourse(db,courseid):
+            abort(404)
         dicussion_list=[]
         dicussion_list=Dicussion.query.getDicussionList(db,courseid)
         json_data=json.dumps(dicussion_list)
@@ -173,7 +173,9 @@ def create_app(config_name):
     @app.route("/addcomment")
     def addComment():
         dicid=request.args.get('dicid')
-        userid=request.args.get('userid')
+        if not Dicussion.query.checkDicussion(db,dicid):
+            abort(404)
+        userid=session['userid']
         content=request.args.get('content')
         courseid=session['courseid']
         dicussion_list=[]
@@ -335,5 +337,8 @@ def create_app(config_name):
         data = json.loads(raw)
         return render_template("searchCondition.html", data = data)
 
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('404.html'),404
     return app
 

@@ -1,5 +1,5 @@
 body{
-    background-color:gray;
+    background-color:transparent;
     background-position: center;
     background-repeat: repeat;
 }
@@ -26,7 +26,7 @@ body{
 .lstCoursename
 {
     text-transform: uppercase;
-    background-color: gray ;
+    background-color: transparent ;
     font-family: "montserrat",sans-serif;
     text-decoration-line: none;
     font-size: 25px; 
@@ -37,7 +37,7 @@ body{
 }
 .lstCoursename1
 {
-    background-color: gray ;
+    background-color: transparent ;
     font-family: "montserrat",sans-serif;
     text-decoration-line: none;
     font-size: 40px;

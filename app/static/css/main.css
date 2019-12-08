@@ -6,7 +6,7 @@
 }
 .header{
   height: 100px;
-  background:gray;
+  background-color: rgba(rgb(189, 67, 219), rgb(148, 54, 192), rgb(165, 94, 153), 0.5);
   padding: 0 20px;
   color:#fff;
 }
@@ -15,14 +15,20 @@
   float: left;
   text-transform: uppercase;
 }
-
+html{
+  height: 100%;
+}
 body {
-  background-color:gray; 
-  height: 500px;
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+  height: 100%;
   background-position: bottom;
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-size: cover;
   position: relative;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
  }
 
 .menu{

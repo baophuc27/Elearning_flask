@@ -61,4 +61,12 @@ class query():
         username=result[4]
         res_dict={'dicid':dicid,'courseid':courseid,'startdate':startdate,'content':content,'username':username}
         return res_dict
-        
+    
+    @staticmethod
+    def checkDicussion(db,dicid):
+        sql="select * from dicussion where dicid={}".format(dicid)
+        result=db.engine.execute(sql)
+        result=result.fetchone()
+        if result is None:
+            return False
+        return True
