@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/deleteCourse.css')}}">
+    <title>Delete Course</title>
+
+</head>
+<body>
+        <div class="container">  
+                <form id="contact" action="/deleteCourse" method="GET">
+                  <h3>GỢI Ý KHÓA HỌC</h3>
+                  <h4>Mong nhận được sự đóng góp nhiệt tình từ các bạn</h4>
+                  <h2>Số lượng khóa học hiện tại: {{count}}</h2>
+                  <fieldset>
+                    <input placeholder="Nhập tên khóa học bạn muốn xóa" type="text" tabindex="2" name ="nameCourse" required>
+                  </fieldset>
+                    <button name="submit" type="submit" id="contact-submit" data-submit="...Sending">DELETE</button>
+                  </fieldset>
+                  <p class="copyright">Supported by <a href="/main" target="_blank" title="Colorlib">P2NT-Elearning</a></p>
+                  <p class="copyright">Check your results by visit <a href="/course" target="_blank" title="Colorlib">Course Page</a></p>
+                  <br><br>
+                  {% with messages = get_flashed_messages() %}
+                            {% if messages %}
+                                {% for messages in messages %}
+                                <div class="error">
+                                    {{messages}}
+                                </div>        
+                                {% endfor %}
+                            {% endif %}
+                        {% endwith %}
+                
+                
+                </form>
+            </div>
+             
+    
+</body>
+</html>

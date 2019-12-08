@@ -145,7 +145,7 @@
 	*/
 	--DROP TRIGGER check_insert_Price;
 	--DROP TRIGGER check_update_Price;
-	--EXEC Insert_Data_to_Course N'abc', N'abc','99999.99'
+	EXEC Insert_Data_to_Course N'abc', N'abc','99999.99'
 	--SELECT * FROM Course
 	--UPDATE Course SET price = 300000.00 WHERE cname =N'Python nâng cao';
 
@@ -342,4 +342,5 @@
 	--SELECT dbo.Calculate_Time(N'Thuật toán trong Machine Learning');
 	---------------------------------------------------------------------------------------------------------------------
 
+		
 
