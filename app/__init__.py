@@ -267,7 +267,6 @@ def create_app(config_name):
 
     
 
-    return app
     #-------------HET BAO PHUC-----------------
    
     #-------------------------------------------------------------------------------------------------
@@ -277,6 +276,7 @@ def create_app(config_name):
     
     @app.route("/course")
     def course():
+        print("hello")
         lst = Course.Query.getdataCourse(db)
         raw = json.dumps(lst)
         data = json.loads(raw)
