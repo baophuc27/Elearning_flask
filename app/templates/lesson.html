@@ -3,24 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{url_for('static',filename='css/course.css')}}">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/lesson.css')}}">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>E-learning - Courses</title>
 </head>
 <body background="{{ url_for('static', filename='img/background.jpeg') }}">
-    <div class = "header">
-        <h2 class="main" style="font-size: 50px;">DANH SÁCH KHÓA HỌC</h2>
+        
+    <div class = "header" >
+        <h2 class="main">DANH SÁCH BÀI HỌC</h2>
     <!-- For loop logic of jinja template -->
-        <ul class="nav">
+        <ol class="nav">
             {%for i in data %} 
-                <p></p>
-                <li title="{{i.cdesc}}"><b><a href = "/lesson?data-id={{i.courseId}}" id = {{i.courseId}} class = "lstCoursename">{{i.cname}}</a></b></li>
-                <a href="#" class="button">ĐĂNG KÍ</a>
-                <p style="font-size: 20px;" class = "lstCoursename1">{{i.price}} VNĐ</p>
-
+            <p></p>
+            <li><b><a href="#" class = "lstCoursename"  style="text-decoration-line: none" >{{i.lname}}</a></b></li>
             {%endfor%} 
-        </ul>
-
+        </ol>
+          
     </div> 
     <br><br><br>
     <p style="font-size: xx-large; font-family: Verdana, Geneva, Tahoma, sans-serif;color: blue; float: right;"><a href="/main">Quay về trang chủ</a></p>

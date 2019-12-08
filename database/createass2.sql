@@ -165,3 +165,5 @@ CREATE TABLE ExamOption(
 	examresult DECIMAL(2,2),
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
+
+
