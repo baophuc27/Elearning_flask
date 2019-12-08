@@ -1,0 +1,118 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Home - Brand</title>
+    <link rel="stylesheet" href="{{url_for('static',filename='css/bootstrap.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='css/examination.css')}}" />\
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" />
+</head>
+
+<body>
+    <nav class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
+        <div class="container"><a class="navbar-brand" href="#">Brand</a><button data-toggle="collapse"
+                data-target="#navbarResponsive" class="navbar-toggler"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                    <li role="presentation" class="nav-item"><a class="nav-link" href="#">Sign Up</a></li>
+                    <li role="presentation" class="nav-item"><a class="nav-link" href="#">Log In</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="main">
+        <!-- Nav tabs -->
+        <h2>Khóa học: {{course}}</h2>
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#menu1">Danh sách Bài Thi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#menu2">Thêm Bài Thi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#menu3">Xóa Bài Thi</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#menu4">Menu 2</a>
+            </li>
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div id="menu1" class="container tab-pane active"><br>
+                <h3>Danh Sách Bài Thi</h3>
+                <div class="form-group">
+                    <label for="mabaithi">Mã bài thi:</label>
+                    <input type="text"" class=" form-control" id="mabaithi" name="mabaithi">
+                </div>
+                <button type="submit" class="btn btn-primary">Create</button>
+                <div>
+                    <table id="myTable" class="table table-striped table-bordered table-sm" cellspacing="0"
+                        width="100%">
+                        <thead>
+                            <tr>
+                                <th class="th-sm">ExamID
+
+                                </th>
+                                <th class="th-sm">totalMark
+
+                                </th>
+                                <th class="th-sm">Detail
+
+                                </th>
+                                <th class="th-sm">Modify
+
+                                </th>
+                                <th class="th-sm">Delete
+
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="menu2" class="container tab-pane fade"><br>
+                <h3>MENU 0</h3>
+                <div>
+                    <form action="/handleExam" method="post" id="handleExam">
+                        <div class="form-group">
+                            <label for="mabaithi">Mã bài thi:</label>
+                            <input type="text"" class=" form-control" id="mabaithi" name="mabaithi">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Create</button>
+                    </form>
+                </div>
+            </div>
+            <div id="menu3" class="container tab-pane fade"><br>
+                <h3>Menu 1</h3>
+                <div>
+                    <form>
+
+                    </form>
+                </div>
+            </div>
+            <div id="menu4" class="container tab-pane fade"><br>
+                <h3>Menu 2</h3>
+                <div>
+                    <form>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+<script src="{{url_for('static',filename='js/examination.js')}}"></script>
+
+</html>

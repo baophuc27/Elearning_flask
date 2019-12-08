@@ -1,0 +1,16 @@
+.main {
+  margin-top: 50px;
+}
+.nav-link {
+  border-radius: 0 !important;
+}
+a {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}

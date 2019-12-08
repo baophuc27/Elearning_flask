@@ -1,6 +1,6 @@
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
-from .models import User
+from .models import User,Examination
 from config import app_config
 import hashlib
 
@@ -79,6 +79,57 @@ def create_app(config_name):
         print(session['username'])
         return render_template("dicussion.html")
     #-------------HET BAO PHUC-----------------
+    @app.route("/examination")
+    def examination():
+        courseID=request.args.get('courseID')
+        return render_template("examination.html",course=courseID)
+    @app.route("/fetchExam")
+    def fetchExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.getAllExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/insertExam",methods=['POST'])
+    def insertExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.createExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/examDelete")
+    def examDelete():
+        examid=request.args.get('id')
+        result=Examination.query.deteleExam(db,examid)
+        print(result)
+        data = {
+            'name':'Examination',
+            'action': 'detete success'
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
     return app
 
 
