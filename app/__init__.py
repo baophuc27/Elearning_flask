@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .models import User,Dicussion,Comment
 from .models import User
 from .models import Course
+from .models import User,Examination
 from config import app_config
 from decimal import Decimal
 import json
@@ -15,7 +16,6 @@ def create_app(config_name):
     db=SQLAlchemy(app)
     db.init_app(app)
     app.secret_key = "super secret key"
-    session = []
 
     @app.route("/")
     def index():
@@ -35,7 +35,8 @@ def create_app(config_name):
             if User.query.getNameandPass(db,name,password):
                 information = User.query.addsession(db,name)
                 tmpuser= User.Users(information[0],information[1],information[2],information[3],information[6])
-                session.append(tmpuser)
+                session['user']=tmpuser.__dict__
+                session['userid']=information[0]
                 return render_template("main.html")
             else:
                 flash("Wrong username or password")
@@ -54,7 +55,6 @@ def create_app(config_name):
                 flash("Must be fill out username and password!")
                 return render_template("register.html")
             password=hashlib.md5(password.encode("utf-8")).hexdigest()
-            ###check if username had been registed
             if User.query.checkifnameregisted(db,name):
                 flash("User had been registed. Please choose another name!")
                 return render_template("register.html")
@@ -122,7 +122,7 @@ def create_app(config_name):
     @app.route("/delbuttonstudent",methods=['GET'])
     def deluserstudent():
         userid = request.args.get('data-id')
-        if (session[0].uname)!='admin':
+        if (session['user']['uname'])!='admin':
             flash('You dont have permission to delete user')
             return render_template('studentlist.html')
         User.query.deleteuser(db,userid)
@@ -140,17 +140,18 @@ def create_app(config_name):
         flash('Delete user success')
         return render_template('teacherlist.html')
 
-    #--------------BAO PHUC--------------------
     @app.route("/dicussion")
     def dicussion():
         return render_template("dicussion.html")
     
     @app.route("/adddicussion")
     def addDicussion():
-        userid=request.args.get('userid')
+        userid=session['userid']
         courseid=request.args.get('courseid')
         content=request.args.get('content')
         session['courseid']=courseid
+        if not Course.Query.checkCourse(db,courseid):
+            abort(404)
         Dicussion.query.addDicussion(db,userid,courseid,content)
         dicussion_list=[]
         dicussion_list=Dicussion.query.getDicussionList(db,courseid)
@@ -162,6 +163,8 @@ def create_app(config_name):
     def getListDicussion():
         courseid=request.args.get('courseid')
         session['courseid']=courseid
+        if not Course.Query.checkCourse(db,courseid):
+            abort(404)
         dicussion_list=[]
         dicussion_list=Dicussion.query.getDicussionList(db,courseid)
         json_data=json.dumps(dicussion_list)
@@ -171,7 +174,9 @@ def create_app(config_name):
     @app.route("/addcomment")
     def addComment():
         dicid=request.args.get('dicid')
-        userid=request.args.get('userid')
+        if not Dicussion.query.checkDicussion(db,dicid):
+            abort(404)
+        userid=session['userid']
         content=request.args.get('content')
         courseid=session['courseid']
         dicussion_list=[]
@@ -220,7 +225,7 @@ def create_app(config_name):
     @app.route("/editbutton",methods=['GET'])
     def edituser():
         userid = request.args.get('data-id')
-        if (session[0].uname)!='admin':
+        if (session['user']['username'])!='admin':
             flash('You dont have permission to edit user')
             return render_template('main.html')
         nameuser = User.query.getuname(db,userid)
@@ -266,6 +271,10 @@ def create_app(config_name):
     #-------------HET BAO PHUC-----------------
    
     #-------------------------------------------------------------------------------------------------
+
+
+    
+
     @app.route("/main")
     def mainpage():
         return render_template("main.html")
@@ -281,7 +290,6 @@ def create_app(config_name):
     @app.route("/lesson")
     def lesson():
         courseId = request.args.get('data-id')
-        print(courseId)
         lst = Course.Query.getdataLesson(db,courseId)
         raw = json.dumps(lst)
         data = json.loads(raw)
@@ -303,15 +311,66 @@ def create_app(config_name):
 
    
     @app.route("/searchCourseOfCurri")
-
     def searchCourseofCurri():
         namecourse = request.args.get('searchCurri')
         lst = Course.Query.searchCurriculum(db,namecourse)
-        print(lst)
         raw = json.dumps(lst)
         data = json.loads(raw)
         fee_curriculum = Course.Query.calculateCurriculum(db,namecourse)
         return render_template("searchCourseOfCurri.html", data = data,  fee_curriculum = fee_curriculum)
+    @app.route("/examination")
+    def examination():
+        courseID=request.args.get('courseID')
+        return render_template("examination.html",course=courseID)
+    @app.route("/fetchExam")
+    def fetchExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.getAllExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/insertExam",methods=['POST'])
+    def insertExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.createExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/examDelete")
+    def examDelete():
+        examid=request.args.get('id')
+        result=Examination.query.deteleExam(db,examid)
+        print(result)
+        data = {
+            'name':'Examination',
+            'action': 'detete success'
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+   
     
     @app.route("/searchCourseOfTopic")
 
@@ -348,5 +407,9 @@ def create_app(config_name):
         name = request.args.get('nameCourse')
         count = Course.Query.deleteCourse(db,name)
         return render_template("deleteCourse.html", count = count)
+
+    @app.errorhandler(404)
+    def page_not_found(error):
+        return render_template('404.html'),404
     return app
 

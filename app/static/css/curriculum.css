@@ -1,7 +1,11 @@
+html{
+    height: 100%;
+}
 body{
-    background-color:gray;
     background-position: left;
     background-repeat: repeat;
+    background: linear-gradient(-135deg, #c850c0, #4158d0);
+    height: 100%;
 }
 .main
 {
@@ -24,7 +28,7 @@ body{
 .lstCoursename
 {
     text-transform: uppercase;
-    background-color: gray ;
+    background-color:transparent ;
     font-family: "montserrat",sans-serif;
     font-size: 25px; 
     color:#fff;

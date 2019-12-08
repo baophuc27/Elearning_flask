@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{url_for('static',filename='css/searchCondition.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="{{ url_for('static', filename='img/banner.png')}}">
     <title>Search</title>
 </head>
-<body background="{{ url_for('static', filename='img/background.jpeg') }}">
+<body >
     <p style="font-size: 30px; font-family: Verdana, Geneva, Tahoma, sans-serif;">NHẬP INPUT - HIỂN THỊ CÁC LỘ TRÌNH CÓ NHIỀU HƠN INPUT KHÓA HỌC</p> 
     <form class="search" action="searchCondition">
             <input type="text" placeholder="Search.." name="searchNum" pattern="[0-9]+" title="Nhập sai input" value=0>

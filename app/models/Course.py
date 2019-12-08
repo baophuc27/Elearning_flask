@@ -118,6 +118,15 @@ class Query():
             camount.append(index[1])
         lstData = [{"cname": name,"camount": amount}  for name, amount in zip(cname, camount)]  
         return lstData
+    @staticmethod
+    def checkCourse(db,courseid):
+        sql="select * from course where courseid={}".format(courseid)
+        result=db.engine.execute(sql)
+        result=result.fetchone()
+        print(result)
+        if result is None:
+            return False
+        return True
     
     def addCourse(db,name,desc,fee):
         sql="EXEC Insert_Data_to_Course N\'"+str(name)+"\', N\'"+str(desc)+"\',"+"\'"+str(fee)+"\'"
