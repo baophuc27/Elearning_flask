@@ -1,0 +1,28 @@
+.header h2{
+    background-color: gray;
+}
+.main
+{
+    font-family: "montserrat",sans-serif;
+    color: #fff;
+    font-size: 50px;
+    margin: 20px;
+}
+.nav {
+    text-align: left;
+    margin: 0;
+    padding: 50px;
+}
+  
+.nav li {
+    font-family: "montserrat",sans-serif;
+    transition: 0.7s;
+    font-size: 30px;
+    padding: 20px;
+}
+.lstCoursename{
+    color: black
+}
+.lstCoursename:hover{
+    color:wheat;
+  }

@@ -1,6 +1,7 @@
 from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from .models import User
+from .models import Course
 from config import app_config
 import hashlib
 
@@ -15,7 +16,7 @@ def create_app(config_name):
 
     @app.route("/")
     def index():
-       return render_template("course.html")
+       return render_template("index.html")
     
    
             
@@ -74,6 +75,72 @@ def create_app(config_name):
     def dicussion():
         return render_template("dicussion.html")
     #-------------HET BAO PHUC-----------------
-    return app
+   
+    #-------------------------------------------------------------------------------------------------
+    @app.route("/main")
+    def mainpage():
+        return render_template("main.html")
+    
+    @app.route("/course")
+    
+    def course():
+        lst = Course.Query.getdataCourse(db)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("course.html", data = data)
+    
+    
+    @app.route("/lesson")
+    def lesson():
+        courseId = request.args.get('data-id')
+        print(courseId)
+        lst = Course.Query.getdataLesson(db,courseId)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("lesson.html", data = data)
+    
+    @app.route("/curriculum")
+    def curriculum():
+        lst = Course.Query.getdataCurriculum(db)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("curriculum.html", data = data)
+    
+    @app.route("/topic")
+    def topic():
+        lst = Course.Query.getdataTopic(db)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("topic.html", data = data)
 
+   
+    @app.route("/searchCourseOfCurri")
+
+    def searchCourseofCurri():
+        namecourse = request.args.get('searchCurri')
+        lst = Course.Query.searchCurriculum(db,namecourse)
+        print(lst)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        fee_curriculum = Course.Query.calculateCurriculum(db,namecourse)
+        return render_template("searchCourseOfCurri.html", data = data,  fee_curriculum = fee_curriculum)
+    
+    @app.route("/searchCourseOfTopic")
+
+    def searchCourseofTopic():
+        nametopic = request.args.get('searchTopic')
+        lst = Course.Query.searchTopic(db,nametopic)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("searchCourseOfTopic.html", data = data)
+    
+    @app.route("/searchCondition")
+    def search():
+        name = request.args.get('searchNum')
+        lst = Course.Query.search(db,name)
+        raw = json.dumps(lst)
+        data = json.loads(raw)
+        return render_template("searchCondition.html", data = data)
+
+    return app
 

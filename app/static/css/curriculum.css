@@ -1,0 +1,37 @@
+body{
+    background-color:gray;
+    background-position: left;
+    background-repeat: repeat;
+}
+.main
+{
+    color: black;
+    font-family: "montserrat",sans-serif;
+}
+.nav {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+  
+.nav li {
+    font-family: "montserrat",sans-serif;
+    transition: 0.7s;
+    font-size: 30px;
+    padding: 20px;
+}
+
+.lstCoursename
+{
+    text-transform: uppercase;
+    background-color: gray ;
+    font-family: "montserrat",sans-serif;
+    font-size: 25px; 
+    color:#fff;
+    
+    transition: 0.7s;
+    padding: 20px;
+}
+.lstCoursename:hover{
+    color:black;
+}

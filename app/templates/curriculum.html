@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static',filename='css/curriculum.css')}}">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E-learning - Curriculums</title>
+</head>
+<body background="{{ url_for('static', filename='img/background.jpeg') }}">
+    <div class = "header">
+        <h2 class="main" style="font-size: 50px;">CÁC LỘ TRÌNH GỢI Ý DÀNH CHO BẠN</h2>
+    <!-- For loop logic of jinja template -->
+        <ul class="nav">
+            {%for i in data %} 
+                <p></p>
+                <li title="{{i.curdesc}}"><b class = "lstCoursename">{{i.curriname}}</b></li>
+            {%endfor%} 
+        </ul>
+
+    </div>
+    <div class = "searchCurri">
+            <p></p><p></p>
+            <p><center><a href="/searchCourseOfCurri" style="font-size: 30px; color: black;">See More -></center></a></p>
+    </div>  
+</body>
+</html>
+
+
+
+   
