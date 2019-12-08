@@ -1,4 +1,8 @@
-CREATE TABLE Users(
+
+create database elearning;
+use elearning;
+CREATE TABLE Users
+(
 	userid int IDENTITY(1,1) NOT NULL,
 	uname VARCHAR(20) NOT NULL,
 	sex CHAR(1),
@@ -9,8 +13,13 @@ CREATE TABLE Users(
 	PRIMARY KEY (userid),
 );
 
+<<<<<<< HEAD
 CREATE TABLE Phone(
 <<<<<<< HEAD:database/createass2.sql
+=======
+CREATE TABLE Phone
+(
+>>>>>>> origin/HPhuc
 	userid int NOT NULL,
 =======
 	phoneid INT IDENTITY(1,1) NOT NULL,
@@ -20,7 +29,8 @@ CREATE TABLE Phone(
 	PRIMARY KEY (phoneid),
 );
 
-CREATE TABLE Student(
+CREATE TABLE Student
+(
 	studentid int NOT NULL,
 	studenttype CHAR(1),
 	trialid int,
@@ -28,29 +38,33 @@ CREATE TABLE Student(
 	PRIMARY KEY (studentid),
 );
 
-CREATE TABLE Teacher(
+CREATE TABLE Teacher
+(
 	teacherid int NOT NULL,
 	balance DECIMAL (10,2),
 	PRIMARY KEY (teacherid),
 );
 
 
-CREATE TABLE Topic(
+CREATE TABLE Topic
+(
 	tid int IDENTITY(1,1) NOT NULL,
 	tname NVARCHAR(30),
 	tdesc NVARCHAR(200),
 	PRIMARY KEY (tid),
 );
 
-CREATE TABLE Curriculum(
+CREATE TABLE Curriculum
+(
 	curriid int IDENTITY(1,1) NOT NULL,
 	curriname NVARCHAR(30),
 	curridesc NVARCHAR(200),
 	PRIMARY KEY (curriid),
 );
 
-CREATE TABLE Course(
-	courseid int  NOT NULL,
+CREATE TABLE Course
+(
+	courseid int NOT NULL,
 	cname NVARCHAR(50),
 	cdesc NVARCHAR(300),
 	rate DECIMAL(1,1),
@@ -58,46 +72,53 @@ CREATE TABLE Course(
 	PRIMARY KEY (courseid),
 );
 
-CREATE TABLE Teach(
+CREATE TABLE Teach
+(
 	teacherid int NOT NULL,
 	courseid int NOT NULL,
 	PRIMARY KEY (teacherid,courseid),
 );
 
-CREATE TABLE Curricourse(
+CREATE TABLE Curricourse
+(
 	curid int NOT NULL,
 	courseid int NOT NULL,
 	PRIMARY KEY(curid,courseid),
 );
 
-CREATE TABLE Topiccourse(
+CREATE TABLE Topiccourse
+(
 	topicid int NOT NULL,
 	courseid int NOT NULL,
 	PRIMARY KEY (topicid,courseid),
 );
 
-CREATE TABLE Enroll(
+CREATE TABLE Enroll
+(
 	studentid int NOT NULL,
 	courseid int NOT NULL,
 	epoint DECIMAL (2,2),
 	PRIMARY KEY(studentid,courseid),
 );
 
-CREATE TABLE Assessment(
+CREATE TABLE Assessment
+(
 	studentid int NOT NULL,
 	courseid int NOT NULL,
 	apoint DECIMAL(2,2),
 	PRIMARY KEY(studentid,courseid),
 );
 
-CREATE TABLE Lesson(
+CREATE TABLE Lesson
+(
 	courseid int NOT NULL,
 	lid int IDENTITY(1,1) NOT NULL,
 	lname NVARCHAR(300),
 	PRIMARY KEY(courseid,lid),
 )
 
-CREATE TABLE Document(
+CREATE TABLE Document
+(
 	courseid int NOT NULL,
 	lid int NOT NULL,
 	docid int IDENTITY(1,1) NOT NULL,
@@ -105,7 +126,8 @@ CREATE TABLE Document(
 	PRIMARY KEY (courseid,lid,docid),
 );
 
-CREATE TABLE Dicussion(
+CREATE TABLE Dicussion
+(
 	dicid int IDENTITY(1,1) NOT NULL,
 	userid int NOT NULL,
 	courseid int NOT NULL,
@@ -114,56 +136,78 @@ CREATE TABLE Dicussion(
 	PRIMARY KEY (dicid),
 );
 
-CREATE TABLE Comment(
+CREATE TABLE Comment
+(
 	dicid int NOT NULL,
 	commentid int IDENTITY(1,1) NOT NULL,
 	content NVARCHAR(500),
 	ctime datetime,
 	PRIMARY KEY(dicid,commentid),
 );
-
-CREATE TABLE Examination(
-	eid int IDENTITY(1,1) NOT NULL,
-	courseid int NOT NULL,
+CREATE TABLE Examination
+(
+	eid CHAR(5) NOT NULL,
+	courseid Int NOT NULL,
+	totalMark INT,
 	PRIMARY KEY (eid),
 );
-
-CREATE TABLE Exam(
-	examid int IDENTITY(1,1) NOT NULL,
+-- ALTER TABLE Examination ADD CONSTRAINT fk_course_exam FOREIGN KEY (courseid) REFERENCES Course(courseid);
+CREATE TABLE Exam
+(
+	examid CHAR(5) NOT NULL,
 	userid int NOT NULL,
-	takentime datetime,
+	takentime datetime DEFAULT GETDATE(),
 	PRIMARY KEY (examid,userid),
 );
 
-CREATE TABLE Question(
-	qid int IDENTITY(1,1) NOT NULL,
-	content NVARCHAR(500),
-	point DECIMAL(2,2),
+ALTER TABLE Exam ADD CONSTRAINT fk_user_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
+
+CREATE TABLE Question
+(
+	qid CHAR(8) NOT NULL,
+	content NVARCHAR(300),
+	mark INT,
+	examid CHAR(5) NOT NULL,
 	PRIMARY KEY (qid),
 );
+ALTER TABLE question ADD CONSTRAINT fk_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
 
-CREATE TABLE ExaminationQuestion(
-	eid int NOT NULL,
-	qid int NOT NULL,
-	PRIMARY KEY (eid,qid),
-);
+-- CREATE TABLE ExaminationQuestion
+-- (
+-- 	eid CHAR(5) NOT NULL,
+-- 	qid CHAR(8) NOT NULL,
+-- 	PRIMARY KEY (eid,qid),
+-- );
+-- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_examq FOREIGN KEY (qid) REFERENCES Question(qid);
+-- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_exame FOREIGN KEY (eid) REFERENCES Examination(eid);
 
 
-CREATE TABLE Options(
-	qid int NOT NULL,
+CREATE TABLE Options
+(
+	qid CHAR(8) NOT NULL,
 	onumber CHAR(3),
-	content NVARCHAR(500),
+	content NVARCHAR(300),
 	result CHAR(1),
 	PRIMARY KEY (qid,onumber),
 );
 
-CREATE TABLE ExamOption(
-	eid int NOT NULL,
+
+
+ALTER TABLE Options ADD CONSTRAINT fk_op_question FOREIGN KEY (qid) REFERENCES Question(qid);
+
+CREATE TABLE ExamOption
+(
+	eid CHAR(5) NOT NULL,
 	studentid int NOT NULL,
 	onumber CHAR(3),
-	qid int,
-	examresult DECIMAL(2,2),
+	qid CHAR(8),
+	mark INT,
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
 
+<<<<<<< HEAD
 
+=======
+ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_exam FOREIGN KEY (eid,studentid) REFERENCES Exam(examid,userid);
+ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_question FOREIGN KEY (qid,onumber) REFERENCES Options(qid,onumber);
+>>>>>>> origin/HPhuc

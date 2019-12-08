@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from .models import User,Dicussion,Comment
 from .models import User
 from .models import Course
+from .models import User,Examination
 from config import app_config
 import json
 import hashlib
@@ -138,7 +139,6 @@ def create_app(config_name):
         flash('Delete user success')
         return render_template('teacherlist.html')
 
-    #--------------BAO PHUC--------------------
     @app.route("/dicussion")
     def dicussion():
         return render_template("dicussion.html")
@@ -224,7 +224,7 @@ def create_app(config_name):
     @app.route("/editbutton",methods=['GET'])
     def edituser():
         userid = request.args.get('data-id')
-        if (session[0].uname)!='admin':
+        if (session['user']['username'])!='admin':
             flash('You dont have permission to edit user')
             return render_template('main.html')
         nameuser = User.query.getuname(db,userid)
@@ -272,9 +272,6 @@ def create_app(config_name):
 
     
 
-    #-------------HET BAO PHUC-----------------
-   
-    #-------------------------------------------------------------------------------------------------
     @app.route("/main")
     def mainpage():
         return render_template("main.html")
@@ -311,7 +308,6 @@ def create_app(config_name):
 
    
     @app.route("/searchCourseOfCurri")
-
     def searchCourseofCurri():
         namecourse = request.args.get('searchCurri')
         lst = Course.Query.searchCurriculum(db,namecourse)
@@ -319,6 +315,59 @@ def create_app(config_name):
         data = json.loads(raw)
         fee_curriculum = Course.Query.calculateCurriculum(db,namecourse)
         return render_template("searchCourseOfCurri.html", data = data,  fee_curriculum = fee_curriculum)
+    @app.route("/examination")
+    def examination():
+        courseID=request.args.get('courseID')
+        return render_template("examination.html",course=courseID)
+    @app.route("/fetchExam")
+    def fetchExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.getAllExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/insertExam",methods=['POST'])
+    def insertExam():
+        courseID=request.args.get('courseID')
+        result=Examination.query.createExam(db,1012345)
+        listExam = [[x[0],x[1],x[2]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+    @app.route("/examDelete")
+    def examDelete():
+        examid=request.args.get('id')
+        result=Examination.query.deteleExam(db,examid)
+        print(result)
+        data = {
+            'name':'Examination',
+            'action': 'detete success'
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
+   
     
     @app.route("/searchCourseOfTopic")
 

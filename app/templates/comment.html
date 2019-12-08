@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="{{url_for('static',filename='css/dicussion.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
 <link rel="stylesheet" href="{{url_for('static',filename='js/dicussion.js')}}">
+<link rel="icon" href="{{ url_for('static', filename='img/banner.png')}}">
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 </head>
 <body>
@@ -126,7 +127,6 @@
     			event.stopImmediatePropagation();
 				$('.commentform').removeAttr('hidden');
 				$('#makecomment').removeClass('btn-primary').addClass('btn-warning')
-				$('#makecomment').text('Hide Comment')
 				$('#makecomment').attr('id','hidecomment')
 		});
 		
