@@ -129,6 +129,13 @@ class query():
         result = result.fetchone()[0]
         return result
 
+    
+    @staticmethod
+    def getunamelogin(db,userid):
+        sql = "select uname from Users where (userid ="+str(userid)+")"
+        result = db.engine.execute(sql)
+        result = result.fetchone()[0]
+        return result
 
     @staticmethod
     def checkcanupdate(db,userid,displayname,sex,birthday,address):
@@ -155,4 +162,12 @@ class query():
             return False
         else:
             return True
+
+    @staticmethod
+    def dropphone(db,userid):
+        sql="delete from Phone where (userid="+str(userid)+")"
+        connection=db.engine.connect()
+        trans=connection.begin()
+        connection.execute(sql)
+        trans.commit()
 

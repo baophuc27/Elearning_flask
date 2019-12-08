@@ -144,6 +144,7 @@ def create_app(config_name):
         nameuser = User.query.getuname(db,userid)
         return render_template('edit.html',data=nameuser,id=userid)
 
+
     
     @app.route("/edituser/",methods=['POST'])
     def editupdateuser():
@@ -156,15 +157,30 @@ def create_app(config_name):
             sex = 'F'
         birthday = request.form['myDate']
         address= request.form['address']
+        phones = request.form['phone'] 
+        phones = phones.split(',')
+        User.query.dropphone(db,userid)
+        nameuser = User.query.getunamelogin(db,userid)
+        if phones!=['']:
+            if (not User.query.addphone(db,nameuser,phones)):
+                flash("Phones less than 9 digits")
+                nameuser = User.query.getuname(db,userid)
+                return render_template('edit.html',data=nameuser,id=userid)
         if (not User.query.checkcanupdate(db,userid,displayname,sex,birthday,address)):
             flash('Wrong information')
-            return render_template('home.html')
+            nameuser = User.query.getuname(db,userid)
+            return render_template('edit.html',data=nameuser,id=userid)
         if not User.query.update(db,userid,displayname,sex,birthday,address):
             flash('Teacher must be over 18')
-            return render_template('home.html')
+            nameuser = User.query.getuname(db,userid)
+            return render_template('edit.html',data=nameuser,id=userid)
         flash('Edit success')
-        return render_template("edit.html")
+        nameuser = User.query.getuname(db,userid)
+        return render_template('edit.html',data=nameuser,id=userid)
+    
 
+
+  
 
 
 

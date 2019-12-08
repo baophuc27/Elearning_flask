@@ -14,6 +14,38 @@ alter table users
 add constraint uniqueuname
 unique (uname)*/
 
+/*alter table phone
+add constraint fk_phone_user_userid foreign key (userid)
+references users(userid)
+on delete cascade on update cascade 
+alter table Student
+add constraint fk_student_user_studentid foreign key (studentid)
+references users(userid)
+on delete cascade on update cascade 
+
+alter table Document 
+add constraint fk_document_lesson_courseid foreign key (courseid,lid)
+references Lesson(courseid,lid)
+alter table Teacher
+add constraint fk_teacher_user_teacherid foreign key (teacherid)
+references users(userid)
+on delete cascade on update cascade 
+
+alter table Student 
+add constraint dk_student_course_trialid foreign key (trialid)
+references course(courseid)*/
+
+CREATE UNIQUE INDEX users_username_userid
+ON Users (username,userid)
+CREATE UNIQUE INDEX Teacher_teacherid
+ON Teacher(teacherid)
+CREATE INDEX Teach_teacherid
+ON Teach(teacherid)
+CREATE UNIQUE  INDEX Student_studentid
+ON Student (studentid)
+------------------------------------------------------------------
+---------------------------PROCEDURE--------------------------------
+-------------------------------------------------------------------
 create procedure insertinuser
 (@uname VARCHAR(20),
 	@sex CHAR(1),
@@ -60,172 +92,16 @@ else
 insert into Users values (@uname,@sex,@bdate,@address,@password,@username);
 end 
 
-/*create procedure insertinteacher
+create procedure insertinteacher
 (
 @teacherid int,
 @balance DECIMAL)
 as
-begin
+begin 
 insert into Teacher values (@teacherid,@balance);
-select ERROR_MESSAGE()
-end*/
+end 
 
-	
-
-/*create procedure insertinstudent
-(	@studentid int,
-	@studenttype CHAR(1),
-	@trialid int ,
-	@expireddate date)
-as
-begin try
-insert into Student values (@studentid,@studenttype,@trialid,@expireddate);
-end try
-begin catch
-	select ERROR_MESSAGE() as error
-end catch*/
-
-
-
---exec insertinuser 'abc','M','05/08/1999',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'
---select * from Users
-
-/*create trigger insertteacher on Teacher 
-after insert,update
-as
-begin
-	if ( exists (select * from inserted as i join users as e on i.teacherid = e.userid
-					where year(getdate())-year(e.bdate) < 18 ))
-		begin 
-		declare @insertid int
-		select @insertid = teacherid from inserted
-		-- xử lý nếu tuổi gv < 18
-		delete from teacher where teacherid=@insertid
-		delete from users where userid=@insertid
-		raiserror('Age of Teachers must be over 18',12,2)
-		select ERROR_MESSAGE()
-		end
-end
-drop trigger insertteacher
---SELECT * FROM users
----insert into teacher values(5,NULL)*/
-
-
-
-/*CREATE FUNCTION checklogin
-(@name VARCHAR(20), @password CHAR(32))	
-returns bit 
-as
-begin 
-if exists( select * from users where uname=@name and password =@password)
-	return 1;
-return 0;
-end;*/
-
-/*CREATE FUNCTION checknameregisted
-(@name VARCHAR(20))	
-returns bit 
-as
-begin 
-if exists( select * from users where uname=@name)
-	return 1;
-return 0;
-end;*/
-CREATE FUNCTION checkcanupdate
-(@userid int,
-@username NVARCHAR(30),
-@sex CHAR(1),
-@bdate date,
-@address NVARCHAR(30))
-
-returns bit 
-as
-begin 
-if len(@username) < 3 OR len(@username)>30
-	return 0;
-if getdate() < @bdate
-	return 0
-
-if len(@address) > 30
-	return 0
-if exists (select * from Teacher where teacherid=@userid)
-begin
-if (year(getdate())-year(@bdate) <18)
-	return 0
-end
-return 1;
-end;
-
-
-
-
-/*alter table phone
-add constraint fk_phone_user_userid foreign key (userid)
-references users(userid)
-on delete cascade on update cascade 
-alter table Student
-add constraint fk_student_user_studentid foreign key (studentid)
-references users(userid)
-on delete cascade on update cascade 
-
-alter table Document 
-add constraint fk_document_lesson_courseid foreign key (courseid,lid)
-references Lesson(courseid,lid)
-alter table Teacher
-add constraint fk_teacher_user_teacherid foreign key (teacherid)
-references users(userid)
-on delete cascade on update cascade 
-
-alter table Student 
-add constraint dk_student_course_trialid foreign key (trialid)
-references course(courseid)*/
-
-
-
---exec insertinuser 'abc','M','05/08/2018',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'--
---insert into teacher values (12,NULL)
-
-/*create trigger updateexpiredate on Student
-after insert,update
-as
-begin
-	declare @inserttype char(1)
-	select @inserttype = studenttype from inserted
-	declare @trial int
-	select @trial = trialid from inserted
-	if @inserttype='T'
-		begin
-			if @trial is not NULL
-				begin
-					update Student
-					set expireddate = getdate() + day(7)
-					from inserted, Student as s
-					where s.studentid = inserted.studentid
-				end
-		end
-end*/
---exec insertinuser 'abcd','M','05/08/2018',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'
---exec dbo.insertinuser 'baophuc','M','2014-02-09',NULL,'202cb962ac59075b964b07152d234b70',N'bao phuc'
---exec dbo.insertinuser 'sacccsaa','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's' 
---insert into Teacher values(3,NULL)
-/*exec dbo.insertinteacher 1037,NULL
-select * from users
-select * from teacher
-exec dbo.insertinuser 'fdxxd','M','2014-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N's'
-delete from Teacher
-select userid from Users where (userid=1038)*/
-
-/*CREATE FUNCTION checkphone
-(@phone VARCHAR(11))	
-returns bit 
-as
-begin 
-if len(@phone) < 9
-	return 0;
-return 1;
-end;*/
-
-/*create procedure insertinphone
+create procedure insertinphone
 (	@uname VARCHAR(20), 
 	@phone VARCHAR(11)
 )
@@ -237,18 +113,27 @@ insert into Phone values (@id,@phone);
 end try
 begin catch
 	select ERROR_MESSAGE() as error
-end catch*/
+end catch
 
---exec insertinphone 'd','0916465507'
 
-/*CREATE TABLE Phone(
-	phoneid INT IDENTITY(1,1) NOT NULL,
-	userid INT NOT NULL,
-	phone VARCHAR(11),
-	PRIMARY KEY (phoneid),
-);*/
 
-/*create procedure searchbynameteacher
+select * from Phone
+
+
+create procedure insertinstudent
+(	@studentid int,
+	@studenttype CHAR(1),
+	@trialid int ,
+	@expireddate date)
+as
+begin try
+insert into Student values (@studentid,@studenttype,@trialid,@expireddate);
+end try
+begin catch
+	select ERROR_MESSAGE() as error
+end catch
+
+create procedure searchbynameteacher
 (	@username NVARCHAR(30), 
 	@orderby NVARCHAR(30),
 	@fromcount int
@@ -280,39 +165,11 @@ order by
 end try
 begin catch
 	select ERROR_MESSAGE() as error
-end catch*/
+end catch
 
 
-exec dbo.insertinuser 'fdxxeeed','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị Hương'
-exec dbo.insertinuser 'fdxxeeede','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Mai'
-exec dbo.insertinuser 'fdxeeexd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Trần Thị Giang'
-exec dbo.insertinuser 'fsssdx3xd','M','1999-02-09','Hồ chí minh','03c7c0ace395d80182db07ae2c30f034',N'Thị A'
-exec dbo.insertinuser 'fd3xxd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thành Giang'
 
-select *from Student
-
-exec dbo.insertinteacher 1056,NULL
-exec dbo.insertinteacher 1057,NULL
-exec dbo.insertinteacher 1058,NULL
-exec dbo.insertinteacher 1059,NULL
-exec dbo.insertinteacher 1060,NULL
-
-exec dbo.insertinstudent 1064,T,NULL,NULL
-exec dbo.insertinstudent 1065,O,NULL,NULL
-exec dbo.insertinstudent 1066,O,NULL,NULL
-exec dbo.insertinstudent 1067,T,NULL,NULL
-
-
-insert into Teach values (1056,1)
-insert into Teach values (1056,2)
-insert into Teach values (1056,3)
-insert into Teach values (1057,4)
-insert into Teach values (1057,5)
-
-exec dbo.searchbynamestudent N'Thị','studenttype'
-
-
-/*create procedure searchbynamestudent
+create procedure searchbynamestudent
 (	@username NVARCHAR(30), 
 	@orderby NVARCHAR(30)
 )
@@ -334,14 +191,7 @@ order by
 end try
 begin catch
 	select ERROR_MESSAGE() as error
-end catch*/
-
-drop procedure searchbynamestudent
-
-
-select * from Users
-select  * from Teacher
-
+end catch
 
 
 create procedure updateuser
@@ -359,5 +209,223 @@ set username = @username ,sex=@sex, bdate = @bdate,address=@address
 where userid = @userid
 end
 
+---------------------------------
+--------------------------------
+--------------------------------TRIGGER----
+---------------------------------------------
+create trigger insertteacher on Teacher 
+after insert,update
+as
+begin
+	if ( exists (select * from inserted as i join users as e on i.teacherid = e.userid
+					where year(getdate())-year(e.bdate) < 18 ))
+		begin 
+		declare @insertid int
+		select @insertid = teacherid from inserted
+		
+		delete from teacher where teacherid=@insertid
+		delete from users where userid=@insertid
+		raiserror('Age of Teachers must be over 18',12,2)
+		select ERROR_MESSAGE()
+		end
+end
 
 
+
+create trigger updateexpiredate on Student
+after insert,update
+as
+begin
+	declare @inserttype char(1)
+	select @inserttype = studenttype from inserted
+	declare @trial int
+	select @trial = trialid from inserted
+	if @inserttype='T'
+		begin
+			if @trial is not NULL
+				begin
+					update Student
+					set expireddate = getdate() + day(7)
+					from inserted, Student as s
+					where s.studentid = inserted.studentid
+				end
+		end
+end
+
+
+--------------------------------------------
+----------------------------FUNCTION---------
+-------------------------------------------
+
+CREATE FUNCTION checklogin
+(@name VARCHAR(20), @password CHAR(32))	
+returns bit 
+as
+begin 
+if exists( select * from users where uname=@name and password =@password)
+	return 1;
+return 0;
+end;
+
+
+
+CREATE FUNCTION checknameregisted
+(@name VARCHAR(20))	
+returns bit 
+as
+begin 
+if exists( select * from users where uname=@name)
+	return 1;
+return 0;
+end;
+
+select * from users
+select dbo.checkcanupdate(1073,N'AB','M','1998-02-05',N'Cần Thơ')
+
+CREATE FUNCTION checkcanupdate
+(@userid int,
+@username NVARCHAR(30),
+@sex CHAR(1),
+@bdate date,
+@address NVARCHAR(30))
+
+returns bit 
+as
+begin 
+if len(@username) < 3 OR len(@username)>30
+	return 0;
+if getdate() < @bdate
+	return 0
+
+if len(@address) > 30
+	return 0
+if exists (select * from Teacher where teacherid=@userid)
+begin
+if (year(getdate())-year(@bdate) <18)
+	return 0
+end
+return 1;
+end;
+
+
+CREATE FUNCTION checkphone
+(@phone VARCHAR(11))	
+returns bit 
+as
+begin 
+if len(@phone) < 9
+	return 0;
+return 1;
+end;
+
+
+
+
+
+
+----------------------
+exec dbo.insertinuser 'fdxxeeed','M','1999-02-09','Long Xuyen','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị Hương'
+exec dbo.insertinuser 'fdxxeeede','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thị Mai'
+exec dbo.insertinuser 'fdxeeexd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Trần Thị Giang'
+exec dbo.insertinuser 'fsssdx3xd','M','1999-02-09','Hồ chí minh','03c7c0ace395d80182db07ae2c30f034',N'Thị A'
+exec dbo.insertinuser 'fd3xxd','M','1999-02-09',NULL,'03c7c0ace395d80182db07ae2c30f034',N'Thành Giang'
+select * from users;
+select *from Phone
+ exec dbo.insertinphone 'd','0918406207'
+exec dbo.insertinteacher 1056,NULL
+exec dbo.insertinteacher 1057,NULL
+exec dbo.insertinteacher 1058,NULL
+exec dbo.insertinteacher 1059,NULL
+exec dbo.insertinteacher 1060,NULL
+
+
+ exec dbo.insertinstudent 1064,T,NULL,NULL
+exec dbo.insertinstudent 1065,O,NULL,NULL
+exec dbo.insertinstudent 1066,O,NULL,NULL
+exec dbo.insertinstudent 1067,T,NULL,NULL
+
+
+insert into Teach values (1056,1)
+insert into Teach values (1056,2)
+insert into Teach values (1056,3)
+insert into Teach values (1057,4)
+insert into Teach values (1057,5)
+
+exec dbo.student N'Thị','studenttype'
+
+create unique index 
+
+
+
+
+
+
+select * from Users
+select  * from Phone
+
+
+
+
+
+
+--exec insertinuser 'abc','M','05/08/2018',N'Long Xuyên','900150983cd24fb0d6963f7d28e17f72',N'Trúc'--
+--insert into teacher values (12,NULL)
+--SELECT * FROM users
+---insert into teacher values(5,NULL)*/
+
+
+/*CREATE TABLE Phone(
+	phoneid INT IDENTITY(1,1) NOT NULL,
+	userid INT NOT NULL,
+	phone VARCHAR(11),
+	PRIMARY KEY (phoneid),
+);*/
+
+select * from Users
+exec dbo.insertinuser 'nguyenthia','F','1999-05-09',N'Hồ Chí Minh','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị A'
+exec dbo.insertinuser 'nguyenthib','F','1999-03-09',N'An Giang','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thị B'
+exec dbo.insertinuser 'nguyenvantoan','M','1997-02-09',N'Khánh Hòa','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Văn Toàn'
+exec dbo.insertinuser 'tranbao','M','1999-02-10',N'Hồ Chí Minh','03c7c0ace395d80182db07ae2c30f034',N'Trần Bảo'
+exec dbo.insertinuser 'huyly','M','1999-05-13',N'Hà Nội','03c7c0ace395d80182db07ae2c30f034',N'Lý Huy'
+exec dbo.insertinuser 'khanhvannguyen','F','1997-05-13',N'Hà Nội','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Khánh Vân'
+exec dbo.insertinuser 'haducchinh','M','1997-12-13',N'Thanh Hóa','03c7c0ace395d80182db07ae2c30f034',N'Hà Đức Chinh'
+exec dbo.insertinuser 'tienlinhnguyen','M','1996-12-13',N'Hà Tĩnh','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Tiến Linh'
+exec dbo.insertinuser 'nguyentronghoang','M','1996-05-13',N'Nghệ An','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Trọng Hoàng'
+
+
+exec dbo.insertinteacher 1071,150000.00
+exec dbo.insertinteacher 1072,140000.00
+exec dbo.insertinteacher 1073,25460000.00
+exec dbo.insertinteacher 1074,5550000.00
+
+select * from Teacher
+
+exec dbo.insertinuser 'ac','M','1996-05-13',N'Nghệ An','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Trọng Hoàng'
+exec dbo.insertinuser 'nguyentronghoang','M','2020-02-05',N'Nghệ An','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Trọng Hoàng'
+
+exec dbo.insertinstudent 1078,'O',NULL,NULL
+
+select * from Student
+
+
+
+exec dbo.insertinuser 'nguyenthuy','M','2005-05-13',N'Nghệ An','03c7c0ace395d80182db07ae2c30f034',N'Nguyễn Thủy'
+
+
+
+exec dbo.insertinteacher 1083,0.00
+
+select * from Users
+select * from Teacher
+
+exec dbo.insertinstudent 1075,'T',NULL,NULL
+update Student
+set trialid=1
+where studentid=1075
+select* from Student
+
+
+exec searchbynameteacher N'Nguyễn','address',0
+insert into Teach Values  (1074,1)
+
+exec searchbynamestudent N'Nguyễn','studenttype'

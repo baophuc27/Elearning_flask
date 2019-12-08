@@ -42,7 +42,7 @@
             <div class="myform form ">
                <form action="register" method="POST" name="login">
                   <div class="form-group">
-                     <input type="text" name="name"  class="form-control my-input" placeholder="username*">
+                     <input type="text" name="name"  class="form-control my-input" placeholder="username*" >
                   </div>
                   <div class="form-group">
                      <input type="password" name="password"  class="form-control my-input"  placeholder="password*">
@@ -67,7 +67,8 @@
                   </div>
                   <div>
                         <p>Input your phones, separated by comma</p>
-                        <input type="text" name="phone"  class="form-control my-input" placeholder="Phone number">
+                        <input type="text" name="phone"  class="form-control my-input" pattern="[0-9,]*"
+                        placeholder="Phone number">
                   </div>
 
                   <div>
