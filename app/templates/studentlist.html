@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+            table, th, td {
+              border: 1px solid black;
+             
+            }
+            th,td {
+                padding: 15px;
+            }
+            table {
+                margin: 0 auto;
+                z-index: 1;
+                width:80%;
+                height: 50px; 
+            }
+            .custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+            </style>
+    <title>Student Search</title>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    type="text/css" />
+</head>
+<body style="padding-top: 10px">
+    <div class="col-xs-8 col-xs-offset-2">
+        <form id="form1" runat="server" class="form-horizontal" action="searchstudent" method="POST">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Student Search Form</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputFirstname" class="control-label col-xs-2">
+                            Name
+                        </label>
+                        <div class="col-xs-10">
+                            <input type="text" runat="server" class="form-control"
+                                id="inputname" name ="name" placeholder="Name" />
+                        </div>
+                    </div>
+
+                    <div style="padding-left: 75px; font-style: oblique;" >
+                        <p>Order by</p>
+                        <input type="radio" name="order" value="gender" checked="checked"> Gender<br>
+                        <input type="radio" name="order" value="address"> Address <br>
+                        <input type="radio" name="order" value="name"> Name <br>
+                        <input type="radio" name="order" value="studenttype"> Type of student <br><br>
+                       
+                     </div>
+
+
+                     
+                    <div style="text-align: center;color:red;">
+                            {% with messages = get_flashed_messages() %}
+                               {% if messages %}
+                                  {% for messages in messages %}
+                                     <div>
+                                       {{messages}}
+                                     </div>        
+                                  {% endfor %}
+                               {% endif %}
+                            {% endwith %}
+                            <br>
+                         </div>
+
+                    
+                
+                   
+                    <div class="form-group" style="width:fit-content ;color:blue; text-align: center;">
+                            <button type="submit" class=" btn btn-block send-button tx-tfm">Search</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Search Results</h3>
+                </div>
+               
+
+                            <div class="container">
+                                    <div class="row col-md-6 col-md-offset-2 custyle">
+                                    <table class="table table-striped custab">
+                                    <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Gender</th>
+                                            <th>Date of birth</th>
+                                            <th>Address</th>
+                                            <th>Student type (T for trial, O for Official)</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    {% for item in data %}
+                                    <tr>
+                                        <td>{{item[0]}}</td>
+                                        <td>{{item[1]}}</td>
+                                        <td>{{item[2]}}</td>
+                                        <td>{{item[3]}}</td>
+                                        <td>{{item[4]}}</td>
+                                        <td class="text-center"  >
+                                            <a class='btn btn-info btn-xs' href="/editbutton?data-id={{item[5]}}" >
+                                                <span class="glyphicon glyphicon-edit" ></span> Edit</a> 
+                                                <a href="/delbuttonstudent?data-id={{item[5]}}" class="btn btn-danger btn-xs">
+                                                    <span class="glyphicon glyphicon-remove" ></span> Del</a></td>
+                                    </tr>
+                                    {% endfor %}
+                                    
+                                    </table>
+                                    </div>
+                                </div>
+
+                              
+                
+            </div>
+        </form>
+    </div>
+</body>
+</html>

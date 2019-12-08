@@ -3452,10 +3452,10 @@ iframe {
 }
 .error{
 	background-color: lightgrey;
-	width: 300px;
-	border: 15px solid green;
-	padding: 10px;
-	margin: 20px;
+	width:fit-content;
+	border: 5px solid red;
+	font-size: smaller;
+	text-align: center;
 }
 
 @media (max-width: 992px) {

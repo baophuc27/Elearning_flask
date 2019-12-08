@@ -10,9 +10,14 @@ CREATE TABLE Users(
 );
 
 CREATE TABLE Phone(
+<<<<<<< HEAD:database/createass2.sql
 	userid int NOT NULL,
+=======
+	phoneid INT IDENTITY(1,1) NOT NULL,
+	userid INT NOT NULL,
+>>>>>>> trucdatabase:createass2.sql
 	phone VARCHAR(11),
-	PRIMARY KEY (userid),
+	PRIMARY KEY (phoneid),
 );
 
 CREATE TABLE Student(

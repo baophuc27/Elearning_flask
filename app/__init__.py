@@ -12,7 +12,7 @@ def create_app(config_name):
     db=SQLAlchemy(app)
     db.init_app(app)
     app.secret_key = "super secret key"
-
+    session = []
 
     @app.route("/")
     def index():
@@ -30,10 +30,9 @@ def create_app(config_name):
                 return render_template("index.html")
             password=hashlib.md5(password.encode("utf-8")).hexdigest()
             if User.query.getNameandPass(db,name,password):
-                flash("Login successful!")
-                session['user']=User.Users(1,'baophuc','M','27/10/1999','Bảo Phúc').__dict__
-                print(session['user'])
-                print(session['user']['username'])
+                information = User.query.addsession(db,name)
+                tmpuser= User.Users(information[0],information[1],information[2],information[3],information[6])
+                session.append(tmpuser)
                 return render_template("home.html")
             else:
                 flash("Wrong username or password")
@@ -69,12 +68,74 @@ def create_app(config_name):
                 return render_template("register.html")
             role = request.form['role']
             ##insert into database
+            phones = request.form['phone'] 
+            phones = phones.split(',')
+            #add phone vào
+            if ( not User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)):
+                flash("""Your display name must be greater than 3 and less than 30.\n 
+                Your username must be less than 20 and greater than 3.\n
+                Length of address must be less than 30.\n
+                Day of birthday must be less than now.\n
+                Teacher must be over 18 years old""")
+                return render_template("register.html")
+            if phones!=['']:
+                if (not User.query.addphone(db,name,phones)):
+                    flash("Phones less than 9 digits")
+                    return render_template("register.html")
+            return render_template("index.html")
 
-            User.query.createnewuser(db,name,gender,birthday,address,password,displayname,role)
-            return render_template("home.html")
-    @app.route("/course")
-    def course():
-        return render_template("course.html")
+    @app.route("/studentlist")
+    def transferstudentlist():
+        return render_template("studentlist.html")
+
+    @app.route("/teacherlist")
+    def transferteacherlist():
+        return render_template("teacherlist.html")
+
+
+    @app.route("/searchteacher",methods=["POST"])
+    def searchteacher():
+        name = request.form['name']
+        order = request.form['order']
+        range = request.form['range']
+        if name=='' or range=='':
+            flash("Please fill out name and range to search!")
+            return render_template('teacherlist.html')
+        result = User.query.searchteacher(db,name,order,range)
+        return render_template('teacherlist.html',data=result)
+
+
+    @app.route("/searchstudent",methods=["POST"])
+    def searchstudent():
+        name = request.form['name']
+        order = request.form['order']
+        if name=='':
+            flash('Please fill out name to search')
+            return render_template('studentlist.html')
+        result = User.query.searchstudent(db,name,order)
+        return render_template('studentlist.html',data=result)
+
+    
+    @app.route("/delbuttonstudent",methods=['GET'])
+    def deluserstudent():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to delete user')
+            return render_template('studentlist.html')
+        User.query.deleteuser(db,userid)
+        flash('Delete user success')
+        return render_template('studentlist.html')
+
+
+    @app.route("/delbuttonteacher",methods=['GET'])
+    def deluserteacher():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to delete user')
+            return render_template('teacherlist.html')
+        User.query.deleteuser(db,userid)
+        flash('Delete user success')
+        return render_template('teacherlist.html')
 
     #--------------BAO PHUC--------------------
     @app.route("/dicussion")
@@ -153,7 +214,57 @@ def create_app(config_name):
         comment_list=json.loads(json_data)
         return render_template("comment.html",comment_list=comment_list,dicuss=dicuss)
 
-    #-------------HET BAO PHUC-----------------
+    @app.route("/editbutton",methods=['GET'])
+    def edituser():
+        userid = request.args.get('data-id')
+        if (session[0].uname)!='admin':
+            flash('You dont have permission to edit user')
+            return render_template('home.html')
+        nameuser = User.query.getuname(db,userid)
+        return render_template('edit.html',data=nameuser,id=userid)
+
+
+    
+    @app.route("/edituser/",methods=['POST'])
+    def editupdateuser():
+        userid = request.args.get('data-id')
+        displayname = request.form['username']
+        sex = request.form['GENDER']
+        if sex =='Male':
+            sex= 'M'
+        else:
+            sex = 'F'
+        birthday = request.form['myDate']
+        address= request.form['address']
+        phones = request.form['phone'] 
+        phones = phones.split(',')
+        User.query.dropphone(db,userid)
+        nameuser = User.query.getunamelogin(db,userid)
+        if phones!=['']:
+            if (not User.query.addphone(db,nameuser,phones)):
+                flash("Phones less than 9 digits")
+                nameuser = User.query.getuname(db,userid)
+                return render_template('edit.html',data=nameuser,id=userid)
+        if (not User.query.checkcanupdate(db,userid,displayname,sex,birthday,address)):
+            flash('Wrong information')
+            nameuser = User.query.getuname(db,userid)
+            return render_template('edit.html',data=nameuser,id=userid)
+        if not User.query.update(db,userid,displayname,sex,birthday,address):
+            flash('Teacher must be over 18')
+            nameuser = User.query.getuname(db,userid)
+            return render_template('edit.html',data=nameuser,id=userid)
+        flash('Edit success')
+        nameuser = User.query.getuname(db,userid)
+        return render_template('edit.html',data=nameuser,id=userid)
+    
+
+
+  
+
+
+
+    
+
     return app
 
 
