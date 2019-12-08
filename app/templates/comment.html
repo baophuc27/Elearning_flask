@@ -22,58 +22,59 @@
     <div class="comments-container">
 
 		<ul id="comments-list" class="comments-list">
-			{% for i in dicussion_list %}
 			<li> 
 				<div class="comment-main-level">
 					<div class="comment-avatar"><img src="https://is3-ssl.mzstatic.com/image/thumb/Purple127/v4/f5/ca/fd/f5cafd96-f3a4-8ec1-37b0-2e82f8bdea77/source/512x512bb.jpg" alt=""></div>
 					<div class="comment-box">
 						<div class="comment-head">
-							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{i.username}}</a></h6>
-							<span>{{i.startdate}}   </span>
-							<span style="padding-left: 10px">   DicussionID: {{i.dicid}}</span>
+							<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{dicuss.username}}</a></h6>
+							<span>{{dicuss.startdate}}   </span>
+							<span style="padding-left: 10px">   DicussionID: {{dicuss.dicid}}</span>
 							<!-- <i class="fa fa-reply"></i> -->
-							 <a href="/deletedicussion?dicid={{i.dicid}}"><i class="fa fa-trash"></i></a> 
+							<a href="/deletedicussion?dicid={{dicuss.dicid}}"><i class="fa fa-trash"></i></a>
 						</div>
 						<div class="comment-content">
-							{{i.content}}
+							{{dicuss.content}}
 						</div>
 					</div>
 				</div>
-				<a href="viewcomment?dicid={{i.dicid}}" class="numcomment">See all {{i.numcomment}} comment</a>
-			{% endfor %}
+				 <ul class="comments-list reply-list">
+                     {% for i in comment_list %}
+					<li> 						
+						<div class="comment-avatar"><img src="https://is3-ssl.mzstatic.com/image/thumb/Purple127/v4/f5/ca/fd/f5cafd96-f3a4-8ec1-37b0-2e82f8bdea77/source/512x512bb.jpg" alt=""></div>
+						<div class="comment-box">
+							<div class="comment-head">
+								<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">{{i.username}}</a></h6>
+								<span>{{i.time}}</span>
+								<a href="/deletecomment?commentid={{i.commentid}}"><i class="fa fa-trash"></i></a> 
+							</div>
+							<div class="comment-content">
+								{{i.content}}
+							</div>
+						</div>
+					</li> 
+                    {% endfor %}
+					 <!-- <li>
+						<div class="comment-avatar"><img src="https://is3-ssl.mzstatic.com/image/thumb/Purple127/v4/f5/ca/fd/f5cafd96-f3a4-8ec1-37b0-2e82f8bdea77/source/512x512bb.jpg" alt=""></div>
+						<div class="comment-box">
+							<div class="comment-head">
+								<h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
+								<span>hace 10 minutos</span>
+								<i class="fa fa-reply"></i>
+								<i class="fa fa-heart"></i>
+							</div>
+							<div class="comment-content">
+								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+							</div>
+						</div>
+					</li>
+				</ul>
+			</li> -->
+			
 		</ul>
 	</div>
 	</div>
-	<button class="btn btn-primary" id="makedicussion">Make Dicussion</button>
 	<button class="btn btn-primary" id="makecomment">Make Comment</button>
-	<div class="row dicussionform" hidden>
-		<form role="form" id="contact-form" class="contact-form" action="adddicussion">
-                    <div class="row">
-                		<div class="col-md-6">
-                  		<div class="form-group">
-                            <input type="text" class="form-control" name="userid" autocomplete="off" id="userid" placeholder="Userid">
-                  		</div>
-                  	</div>
-                    	<div class="col-md-6">
-                  		<div class="form-group">
-                            <input type="text" class="form-control" name="courseid" autocomplete="off" id="courseid" placeholder="CourseID">
-                  		</div>
-                  	</div>
-                  	</div>
-                  	<div class="row">
-                  		<div class="col-md-12">
-                  		<div class="form-group">
-                            <textarea class="form-control textarea" rows="3" name="content" id="content" placeholder="Content..."></textarea>
-                  		</div>
-                  	</div>
-                    </div>
-                    <div class="row">
-                    <div class="col-md-12">
-                  <button type="submit" class="btn btn-primary pull-right">Make Dicussion</button>
-                  </div>
-                  </div>
-                </form>
-	</div>
 	<div class="row commentform" hidden>
 			<form role="form" id="contact-form" class="contact-form" action="addcomment">
 						<div class="row">
@@ -105,14 +106,6 @@
 </div>
 <script>
 	//$(document).ready(function(){
-		$('#makedicussion').unbind().on('click', function(event){
-				event.stopPropagation();
-   				event.stopImmediatePropagation();
-				$('.dicussionform').removeAttr('hidden');
-				$('#makedicussion').removeClass('btn-primary').addClass('btn-warning')
-				$('#makedicussion').text('Hide Dicussion')
-				$('#makedicussion').attr('id','hidedicussion')
-		});
 		$('#makecomment').unbind().on('click', function(event){
 				event.stopPropagation();
     			event.stopImmediatePropagation();
@@ -130,14 +123,6 @@
 		$('#hidecomment').removeClass('btn-warning').addClass('btn-primary')
 		$('#hidecomment').text('Make Comment')
 		$('#hidecomment').attr('id','makecomment')
-	});
-	$('#hidedicussion').unbind().on('click', function(event){
-		event.stopPropagation();
-    	event.stopImmediatePropagation();
-		$('.dicussionform').hide();
-		$('#hidedicussion').removeClass('btn-warning').addClass('btn-primary')
-		$('#hidedicussion').text('Make Dicussion')
-		$('#hidedicussion').attr('id','makedicussion')
 	});
 </script>
 </body>

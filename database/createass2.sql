@@ -10,15 +10,20 @@ CREATE TABLE Users(
 );
 
 CREATE TABLE Phone(
+<<<<<<< HEAD:database/createass2.sql
 	userid int NOT NULL,
+=======
+	phoneid INT IDENTITY(1,1) NOT NULL,
+	userid INT NOT NULL,
+>>>>>>> trucdatabase:createass2.sql
 	phone VARCHAR(11),
-	PRIMARY KEY (userid),
+	PRIMARY KEY (phoneid),
 );
 
 CREATE TABLE Student(
 	studentid int NOT NULL,
 	studenttype CHAR(1),
-	trialid int IDENTITY(1,1),
+	trialid int,
 	expireddate date,
 	PRIMARY KEY (studentid),
 );
@@ -45,10 +50,10 @@ CREATE TABLE Curriculum(
 );
 
 CREATE TABLE Course(
-	courseid int NOT NULL,
+	courseid int  NOT NULL,
 	cname NVARCHAR(50),
 	cdesc NVARCHAR(300),
-	cstatus CHAR(1),
+	rate DECIMAL(1,1),
 	price DECIMAL(8,2),
 	PRIMARY KEY (courseid),
 );
@@ -160,3 +165,5 @@ CREATE TABLE ExamOption(
 	examresult DECIMAL(2,2),
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
+
+

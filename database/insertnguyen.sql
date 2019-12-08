@@ -18,7 +18,6 @@ ALTER TABLE Lesson
  ALTER TABLE topiccourse
  ADD CONSTRAINT fk_curricourse_topic_tid FOREIGN KEY (topicid)
  REFERENCES topic(tid)
-*/
 
 /*ALTER TABLE course
  ADD CONSTRAINT checkPrice 
