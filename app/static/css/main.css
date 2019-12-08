@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   font-family: "montserrat",sans-serif;
+  
 }
 .header{
   height: 100px;
@@ -16,7 +17,7 @@
 }
 
 body {
-  background-color:gray;
+  background-color:gray; 
   height: 500px;
   background-position: bottom;
   background-repeat: no-repeat;

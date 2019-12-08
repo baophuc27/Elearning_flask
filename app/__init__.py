@@ -14,7 +14,6 @@ def create_app(config_name):
     db=SQLAlchemy(app)
     db.init_app(app)
     app.secret_key = "super secret key"
-    session = []
 
     @app.route("/")
     def index():
@@ -34,7 +33,11 @@ def create_app(config_name):
             if User.query.getNameandPass(db,name,password):
                 information = User.query.addsession(db,name)
                 tmpuser= User.Users(information[0],information[1],information[2],information[3],information[6])
-                session.append(tmpuser)
+                session['user']=tmpuser.__dict__
+                session['userid']=information[0]
+                print("-----")
+                print(session['userid'])
+                print(session['user']['uname'])
                 return render_template("main.html")
             else:
                 flash("Wrong username or password")
@@ -121,7 +124,7 @@ def create_app(config_name):
     @app.route("/delbuttonstudent",methods=['GET'])
     def deluserstudent():
         userid = request.args.get('data-id')
-        if (session[0].uname)!='admin':
+        if (session['user']['uname'])!='admin':
             flash('You dont have permission to delete user')
             return render_template('studentlist.html')
         User.query.deleteuser(db,userid)
@@ -276,7 +279,6 @@ def create_app(config_name):
     
     @app.route("/course")
     def course():
-        print("hello")
         lst = Course.Query.getdataCourse(db)
         raw = json.dumps(lst)
         data = json.loads(raw)
@@ -286,7 +288,6 @@ def create_app(config_name):
     @app.route("/lesson")
     def lesson():
         courseId = request.args.get('data-id')
-        print(courseId)
         lst = Course.Query.getdataLesson(db,courseId)
         raw = json.dumps(lst)
         data = json.loads(raw)
@@ -312,7 +313,6 @@ def create_app(config_name):
     def searchCourseofCurri():
         namecourse = request.args.get('searchCurri')
         lst = Course.Query.searchCurriculum(db,namecourse)
-        print(lst)
         raw = json.dumps(lst)
         data = json.loads(raw)
         fee_curriculum = Course.Query.calculateCurriculum(db,namecourse)
