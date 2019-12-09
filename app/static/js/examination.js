@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  var close = document.getElementsByClassName("closebtn");
+  close[0].onclick = function() {
+    $("#alert-box").hide();
+  };
+  close[1].onclick = function() {
+    $("#warning-box").hide();
+  };
+  close[2].onclick = function() {
+    $("#danger-box").hide();
+  };
   fetchExam();
 });
 function deleteExam(id) {
@@ -8,7 +18,8 @@ function deleteExam(id) {
     dataType: "json",
     success: function(data) {
       console.log(data);
-      alert(data.action);
+      $("#warning-box").show();
+      $("#alert-warning").text(data.action);
       fetchExam();
     }
   });
@@ -44,8 +55,9 @@ function fetchExam() {
 }
 
 function createExam(name) {
-  if ($("#mabaithi").val().length > 5) {
-    alert("phải có đúng 5 kí tự");
+  if ($("#mabaithi").val().length > 5 && $("#mabaithi").val().length <= 0) {
+    $("#warning-box").show();
+    $("#alert-warning").text("phải có từ 1 - 5 kí tự");
     return false;
   }
   $.post(
@@ -55,7 +67,8 @@ function createExam(name) {
       examID: $("#mabaithi").val()
     },
     function(data, status) {
-      alert("Status: " + data.message);
+      $("#alert-box").show();
+      $("#alert-info").text(data.message);
       fetchExam();
     }
   );

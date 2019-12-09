@@ -36,24 +36,23 @@
 		</ul>
 	  </div>
     <div class="main">
+
         <!-- Nav tabs -->
         <h2>Khóa học: <span id="course-name">{{course}}</span></h2>
-        <!--<ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#menu1">Danh sách Bài Thi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu2">Thêm Bài Thi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu3">Xóa Bài Thi</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="tab" href="#menu4">Menu 2</a>
-            </li>
-        </ul> -->
+        <div class="alert info" id="alert-box">
+            <span class="closebtn">&times;</span>
+            <strong>Info!</strong> <span id="alert-info"></span>
+        </div>
+        <div class="alert warning" id="warning-box">
+            <span class="closebtn">&times;</span>
+            <strong>Warning</strong> <span id="alert-warning"></span>
+        </div>
 
-        <!-- Tab panes -->
+        <div class="alert danger" id="danger-box">
+            <span class="closebtn">&times;</span>
+            <strong>Error</strong> <span id="alert-danger"></span>
+        </div>
+
         <div class="tab-content">
             <div id="menu1" class="container tab-pane active"><br>
                 <h3>Danh Sách Bài Thi</h3>
