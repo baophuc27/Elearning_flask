@@ -128,6 +128,30 @@ class Query():
             return False
         return True
     
+    def addCourse(db,name,desc,fee):
+        sql="EXEC Insert_Data_to_Course N\'"+str(name)+"\', N\'"+str(desc)+"\',"+"\'"+str(fee)+"\'"
+        connection=db.engine.connect()
+        trans=connection.begin()
+        result=connection.execute(sql)
+        trans.commit()
+        sql1 = "SELECT count(*) from Course" 
+        result1 = db.engine.execute(sql1)
+        result1 = result1.fetchone()
+        return result1[0]
+    
+    def deleteCourse(db,name):
+        sql="DELETE FROM Course WHERE cname = N\'" + str(name)+"\'"
+        connection=db.engine.connect()
+        trans=connection.begin()
+        result=connection.execute(sql)
+        trans.commit()
+        sql1 = "SELECT count(*) from Course" 
+        result1 = db.engine.execute(sql1)
+        result1 = result1.fetchone()
+        return result1[0]
+
+    
+    
     
     
         

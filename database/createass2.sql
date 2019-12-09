@@ -172,14 +172,6 @@ CREATE TABLE Question
 );
 ALTER TABLE question ADD CONSTRAINT fk_exam FOREIGN KEY (examid) REFERENCES Examination(eid);
 
--- CREATE TABLE ExaminationQuestion
--- (
--- 	eid CHAR(5) NOT NULL,
--- 	qid CHAR(8) NOT NULL,
--- 	PRIMARY KEY (eid,qid),
--- );
--- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_examq FOREIGN KEY (qid) REFERENCES Question(qid);
--- ALTER TABLE ExaminationQuestion ADD CONSTRAINT fk_user_exame FOREIGN KEY (eid) REFERENCES Examination(eid);
 
 
 CREATE TABLE Options
@@ -205,9 +197,4 @@ CREATE TABLE ExamOption
 	PRIMARY KEY (eid,studentid,onumber,qid),
 );
 
-<<<<<<< HEAD
 
-=======
-ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_exam FOREIGN KEY (eid,studentid) REFERENCES Exam(examid,userid);
-ALTER TABLE ExamOption ADD CONSTRAINT fk_EO_question FOREIGN KEY (qid,onumber) REFERENCES Options(qid,onumber);
->>>>>>> origin/HPhuc

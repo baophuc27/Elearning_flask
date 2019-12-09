@@ -97,6 +97,28 @@ ALTER TABLE Lesson
 
   -- PHẦN RIÊNG
   --- TẠO PROCEDURE INSERT COURSE 
+   CREATE PROC Insert_Data_to_Course (
+  @cname NVARCHAR(50) ,
+  @cdesc NVARCHAR(300),
+  @price NVARCHAR(30)
+  )
+  AS
+	BEGIN TRY
+		DECLARE @courseid int;
+		SELECT @courseid = max(courseid) from Course;
+		SELECT @courseid = @courseid + 1;
+		DECLARE @temp DECIMAL(8,2);
+		SET @temp = CONVERT(DECIMAL(8,2),@price)
+		IF len(@cname) < 5 OR len(@cdesc) < 5
+			BEGIN
+			RAISERROR('LENGTH OF YOUR NAME (OR YOUR DESCRIPTION) IS TOO SHORT ',1,1)
+			RETURN
+			END
+		INSERT INTO Course VALUES (@courseid,@cname,@cdesc,@temp,0.0);
+	END TRY
+	BEGIN CATCH
+		SELECT ERROR_MESSAGE() AS ERROR_MESS
+	END CATCH
   /*CREATE PROC Insert_Data_to_Course (
   @cname NVARCHAR(50) ,
   @cdesc NVARCHAR(300),

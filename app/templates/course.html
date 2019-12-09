@@ -6,11 +6,38 @@
     <link rel="stylesheet" href="{{url_for('static',filename='css/course.css')}}">
     <link rel="stylesheet" href="{{url_for('static',filename='css/main.css')}}">
     <link rel="icon" href="{{ url_for('static', filename='img/banner.png')}}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>E-learning - Courses</title>
+    <script>
+                function enroll(courseid) {
+                    $.ajax({
+                        dataType: "json",
+                        url: "/enroll?courseid=" +courseid,
+                        success: function (data) {
+                            if(data.success==true){
+                            var ale = "Bạn đã đăng ký thành công khóa học: <strong>" + data.courseid + "</strong> !!!";
+                            $('#alert').html(ale);
+                            $('#alert').addClass("alert alert-success");
+                            }
+                            else{
+                                var ale = "Bạn đã đăng ký khóa học: <strong>" + data.courseid + "</strong> trước đó!!!";
+                                $('#alert').html(ale);
+                                $('#alert').addClass("alert alert-danger"); 
+                            }
+                            $("#alert").delay(2000).slideUp(500, function () {
+                                $(this).html("");
+                                $(this).removeClass("alert alert-success alert-danger");
+                                document.getElementById("alert").style.display = "block";
+                            });
+                        }
+                    });
+                }
+            </script>
 </head>
 <body>
+    <div id="alert"></div>
     <div class = "header">
         <h2 class="main" style="font-size: 50px;">DANH SÁCH KHÓA HỌC</h2>
     <!-- For loop logic of jinja template -->
@@ -18,7 +45,7 @@
             {%for i in data %} 
                 <p></p>
                 <li title="{{i.cdesc}}"><b><a href = "/lesson?data-id={{i.courseId}}" id = {{i.courseId}} class = "lstCoursename">{{i.cname}}</a></b></li>
-                <a href="/enroll" class="btn btn-success">ĐĂNG KÍ</a>
+                <button onclick="enroll('{{i.courseId}}')" class="btn btn-success">ĐĂNG KÍ</button>
                 <a href="/getlistdicussion?courseid={{i.courseId}}" class="btn btn-success">DICUSSION</a>
                 <a href="/examination?courseid={{i.courseId}}" class="btn btn-success">Examination</a>
                 <p style="font-size: 20px;" class = "lstCoursename1">{{i.price}} VNĐ</p>
@@ -29,5 +56,9 @@
     </div> 
     <br><br><br>
     <p style="font-size: xx-large; font-family: Verdana, Geneva, Tahoma, sans-serif;color: blue; float: right;"><a href="/main">Quay về trang chủ</a></p>
+    <a href="/deleteCourse" class="button">Delete-Manner</a>
+    <br>
+    <a href="/configCourse" class="button">Insert-Manner</a>
 </body>
+
 </html>

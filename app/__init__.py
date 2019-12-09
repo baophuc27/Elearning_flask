@@ -2,9 +2,10 @@ from flask import *
 from flask_sqlalchemy import SQLAlchemy
 from .models import User,Dicussion,Comment
 from .models import User
-from .models import Course
+from .models import Course,Enroll
 from .models import User,Examination
 from config import app_config
+from decimal import Decimal
 import json
 import hashlib
 
@@ -266,8 +267,10 @@ def create_app(config_name):
     
 
 
-  
 
+    #-------------HET BAO PHUC-----------------
+   
+    #-------------------------------------------------------------------------------------------------
 
 
     
@@ -385,9 +388,36 @@ def create_app(config_name):
         raw = json.dumps(lst)
         data = json.loads(raw)
         return render_template("searchCondition.html", data = data)
+
     @app.route("/enroll")
     def enroll():
-        return render_template("enroll.html")
+        studentid=session['userid']
+        courseid=request.args.get('courseid')
+        flag=Enroll.query.checkEnroll(db,studentid,courseid)
+        if not flag:
+            Enroll.query.addEnroll(db,studentid,courseid)
+            return jsonify(courseid=courseid,success=True)
+        return jsonify(courseid=courseid,success=False)
+    
+    @app.route("/configCourse")
+    def addCourse():
+       
+        name = request.args.get('nameCourse')
+        desc = request.args.get('descCourse')
+        if name is None or desc is None:
+            flash("Please re-insert !")
+            return render_template("configCourse.html")
+        else:
+            fee = 100000.01
+            count = Course.Query.addCourse(db,name,desc,fee)
+            return render_template("configCourse.html", count = count)
+    
+    @app.route("/deleteCourse")
+    def deleteCourse():
+        name = request.args.get('nameCourse')
+        count = Course.Query.deleteCourse(db,name)
+        return render_template("deleteCourse.html", count = count)
+
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'),404
