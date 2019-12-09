@@ -154,3 +154,42 @@ function deleteQuestion(id) {
     }
   });
 }
+function searchQuestion(exam) {
+  content = $("#noidungSearch").val();
+  $("#myTable > tbody").empty();
+  $.ajax({
+    url: "/searchQuestion?content=" + content,
+    type: "GET",
+    dataType: "json",
+    success: function(data) {
+      data.listExam.forEach(element => {
+        if (element[2] == null) element[2] = "Chưa có đáp án";
+        $("#myTable > tbody").append(
+          "<tr><td>" +
+            element[0] +
+            "</td>" +
+            "<td>" +
+            element[1] +
+            "</td>" +
+            "<td>" +
+            element[2] +
+            "</td>" +
+            "<td>" +
+            element[3] +
+            "</td>" +
+            `<td><button class='btn btn-sm btn-primary' onclick='modifyQuestion("` +
+            element[0] +
+            `","` +
+            element[1] +
+            `",` +
+            element[3] +
+            `)'>Detail</button>` +
+            `<td><button class='btn btn-sm btn-danger' onclick='deleteQuestion("` +
+            element[0] +
+            `")'>Delete</button>` +
+            "</td></tr>"
+        );
+      });
+    }
+  });
+}

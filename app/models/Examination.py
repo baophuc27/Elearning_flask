@@ -60,3 +60,9 @@ class query():
             return {'message': 'delete success'}
         except:
             return {'message': 'trùng question id'}
+    @staticmethod
+    def searchQuestion(db,content):
+        sql="exec searchbycontentQuestion @noidung='"+content+"'"
+        result = db.engine.execute(sql)
+        result = result.fetchall()
+        return result

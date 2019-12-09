@@ -219,13 +219,36 @@ create procedure danhsachCauHoiCuaKiThi(@makythi CHAR(5))
 as
 begin
 
-    select Question.qid, Question.content as question, Options.content as answer, Question.mark as mark
+    select Question.qid, Question.content as question, Options.onumber, Options.content as answer, Question.mark as mark
     from Question Full outer JOIN Options on Question.qid=Options.qid
     WHERE Question.examid=@makythi and (Options.result='T' or Options.result is NULL)
 end
 Go;
 EXEC danhsachCauHoiCuaKiThi @makythi='ex001';
 GO;
+
+select Question.qid, Question.content as question, Options.onumber as answer, Question.mark as mark
+from Question Full outer JOIN Options on Question.qid=Options.qid
+WHERE Question.examid='ex101' and (Options.result='T' or Options.result is NULL)
+go;
+
+create procedure searchbycontentQuestion
+    (
+    @noidung NVARCHAR(30)
+)
+as
+begin try
+
+select *
+from Question
+where (Question.content LIKE '%'+@noidung +'%')
+order by Question.qid
+end try
+begin catch
+	select ERROR_MESSAGE() as error
+end catch
+go;
+exec searchbycontentQuestion @noidung='con'
 
 select Question.qid, Question.content as question, Options.content as answer, Question.mark as mark
 from Question Full outer JOIN Options on Question.qid=Options.qid

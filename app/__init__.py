@@ -184,4 +184,20 @@ def create_app(config_name):
             mimetype='application/json'
         )
         return response
+    @app.route("/searchQuestion")
+    def searchQuestion():
+        content=request.args.get('content')
+        result=Examination.query.searchQuestion(db,content)
+        listExam = [[x[0],x[1],x[2],x[3]] for x in result]
+        data = {
+            'name':'Examination',
+            'listExam': listExam
+        }
+        response = app.response_class(
+            response=json.dumps(data),
+            status=200,
+            mimetype='application/json'
+        )
+        print(data)
+        return response
     return app
