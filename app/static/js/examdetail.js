@@ -1,4 +1,14 @@
 $(document).ready(function() {
+  var close = document.getElementsByClassName("closebtn");
+  close[0].onclick = function() {
+    $("#alert-box").hide();
+  };
+  close[1].onclick = function() {
+    $("#warning-box").hide();
+  };
+  close[2].onclick = function() {
+    $("#danger-box").hide();
+  };
   fetchQuestion();
 });
 function deleteExam(id) {
@@ -7,8 +17,8 @@ function deleteExam(id) {
     type: "GET",
     dataType: "json",
     success: function(data) {
-      console.log(data);
-      alert(data.action);
+      $("#alert-box").show();
+      $("#alert-info").text(data.action);
       fetchQuestion();
     }
   });
@@ -55,19 +65,23 @@ function fetchQuestion() {
 
 function createQuestion(name) {
   if ($("#macauhoi").val().length > 8) {
-    alert("không được quá 8 kí tự");
+    $("#warning-box").show();
+    $("#alert-warning").text("không được quá 8 kí tự");
     return false;
   }
   if ($("#macauhoi").val().length <= 0) {
-    alert("không được để trống mã câu hỏi");
+    $("#warning-box").show();
+    $("#alert-warning").text("không được để trống mã câu hỏi");
     return false;
   }
   if ($("#noidung").val().length <= 0) {
-    alert("không được để trống nội dung");
+    $("#warning-box").show();
+    $("#alert-warning").text("không được để trống nội dung");
     return false;
   }
   if (parseInt($("#diem").val()) < 0) {
-    alert("không được để điểm âm");
+    $("#warning-box").show();
+    $("#alert-warning").text("không được để điểm âm");
     return false;
   }
   $.post(
@@ -79,7 +93,8 @@ function createQuestion(name) {
       content: $("#noidung").val()
     },
     function(data, status) {
-      alert("Status: " + data.message);
+      $("#alert-box").show();
+      $("#alert-info").text(data.message);
       fetchQuestion();
     }
   );
@@ -95,11 +110,14 @@ function modifyQuestion(id, c, m) {
 }
 function confirmModify() {
   if ($("#Content").val().length <= 0) {
+    $("#warning-box").show();
+    $("#alert-warning").text("không được để trống nội dung");
     alert("không được để trống nội dung");
     return false;
   }
   if (parseInt($("#mark").val()) < 0) {
-    alert("không được để điểm âm");
+    $("#warning-box").show();
+    $("#alert-warning").text("không được để điểm âm");
     return false;
   }
   $.post(
@@ -130,7 +148,8 @@ function deleteQuestion(id) {
     dataType: "json",
     success: function(data) {
       console.log(data);
-      alert(data.action);
+      $("#warning-box").show();
+      $("#alert-warning").text(data.action);
       fetchQuestion();
     }
   });

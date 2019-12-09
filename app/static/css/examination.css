@@ -1,6 +1,9 @@
 .main {
   margin-top: 50px;
 }
+#NAV {
+  background: linear-gradient(-135deg, #c850c0, #4158d0);
+}
 .nav-link {
   border-radius: 0 !important;
 }
@@ -95,4 +98,44 @@ body {
 .button-form {
   display: flex;
   justify-content: space-around;
+}
+
+.alert {
+  width: 60%;
+  left: 20%;
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+  display: none;
+}
+
+.alert.success {
+  background-color: #4caf50;
+}
+.alert.info {
+  background-color: #2196f3;
+}
+.alert.warning {
+  background-color: #ff9800;
+}
+.alert.danger {
+  background-color: #d9534f;
+}
+
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
 }
