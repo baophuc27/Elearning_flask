@@ -225,9 +225,14 @@ def create_app(config_name):
     @app.route("/editbutton",methods=['GET'])
     def edituser():
         userid = request.args.get('data-id')
+        role=User.query.getRole(db,userid)
         if (session['user']['username'])!='admin':
-            flash('You dont have permission to edit user')
-            return render_template('main.html')
+            if(role is None):
+                flash('You dont have permission to edit user')
+                return render_template('studentlist.html')
+            else:
+                flash('You dont have permission to edit user')
+                return render_template('teacherlist.html')
         nameuser = User.query.getuname(db,userid)
         return render_template('edit.html',data=nameuser,id=userid)
 
@@ -320,7 +325,9 @@ def create_app(config_name):
         return render_template("searchCourseOfCurri.html", data = data,  fee_curriculum = fee_curriculum)
     @app.route("/examination")
     def examination():
-        courseID=request.args.get('courseID')
+        courseID=request.args.get('courseid')
+        print("++++++")
+        print(courseID)
         return render_template("examination.html",course=courseID)
     @app.route("/fetchExam")
     def fetchExam():
@@ -418,7 +425,6 @@ def create_app(config_name):
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template('404.html'),404
-    return app
     @app.route("/examDetail")
     def examDetail():
         examid=request.args.get('id')

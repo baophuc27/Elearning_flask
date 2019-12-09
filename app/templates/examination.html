@@ -16,25 +16,16 @@
 </head>
 
 <body>
-    <div class="header">
-		<h2 class="logo">P2NT E-Learning</h2>
-		<input type="checkbox" id="chk">
-		<label for="chk" class="show-menu-btn">
-		  <i class="fas fa-ellipsis-h"></i>
-		</label>
-		
-		<ul class="menu">
-			<a href="/course">Courses</a>
-			<a href="/topic">Topics</a>
-			<a href="/curriculum">Curriculum</a>
-			<a href="/editbutton?data-id={{session['userid']}}">Edit</a>
-			<a href="/studentlist">List Students</a>
-			<a href="/teacherlist">List Teacher</a>
-		  <label for="chk" class="hide-menu-btn">
-			<i class="fas fa-times"></i>
-		  </label>
-		</ul>
-	  </div>
+    <nav id="NAV" class="navbar navbar-dark navbar-expand-lg fixed-top bg-dark navbar-custom">
+        <div class="container"><a class="navbar-brand" href="/">P2NT Elearning</a><button data-toggle="collapse"
+                data-target="#navbarResponsive" class="navbar-toggler"><span
+                    class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="main">
 
         <!-- Nav tabs -->

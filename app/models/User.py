@@ -168,3 +168,9 @@ class query():
         connection.execute(sql)
         trans.commit()
 
+    @staticmethod
+    def getRole(db,userid):
+        sql="select * from teacher where teacherid={}".format(str(userid))
+        result=db.engine.execute(sql)
+        result=result.fetchone()
+        return result
