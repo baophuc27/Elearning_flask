@@ -1,12 +1,29 @@
 $(document).ready(function() {
+  fetchExam();
+});
+function deleteExam(id) {
   $.ajax({
-    url: "/fetchExam",
+    url: "/examDelete?id=" + id,
+    type: "GET",
+    dataType: "json",
+    success: function(data) {
+      console.log(data);
+      alert(data.action);
+      fetchExam();
+    }
+  });
+}
+function fetchExam() {
+  courseID = $("#course-name").text();
+  $("#myTable > tbody").empty();
+  $.ajax({
+    url: "/fetchExam?courseID=" + courseID,
     type: "GET",
     dataType: "json",
     success: function(data) {
       data.listExam.forEach(element => {
         console.log(element);
-        $("#myTable tr:last").after(
+        $("#myTable > tbody").append(
           "<tr><td>" +
             element[0] +
             "</td>" +
@@ -15,36 +32,32 @@ $(document).ready(function() {
             "</td>" +
             "<td><button class='btn btn-sm btn-primary'><a href='/examDetail?id=" +
             element[0] +
-            "'>Detail</a></button></td>" +
-            "<td><button class='btn btn-sm btn-warning'><a href='/examModify?id=" +
+            "'>Detail</a></button>" +
+            `<td><button class='btn btn-sm btn-danger' onclick='deleteExam("` +
             element[0] +
-            "'>Modify</a></button></td>" +
-            "<td><button class='btn btn-sm btn-danger' onclick='deleteExam('" +
-            element[0] +
-            "')'>Delete</button></td>" +
+            `")'>Delete</button></td>` +
             "</tr>"
         );
       });
     }
   });
-  $("#menu1").click(function() {
-    $.ajax({
-      url: "/fetchExam",
-      type: "GET",
-      dataType: "json",
-      success: function(data) {
-        console.log(data);
-      }
-    });
-  });
-});
-function deleteExam(id) {
-  $.ajax({
-    url: "/deleteExam?id=" + id,
-    type: "GET",
-    dataType: "json",
-    success: function(data) {
-      console.log(data);
+}
+
+function createExam(name) {
+  if ($("#mabaithi").val().length > 5) {
+    alert("phải có đúng 5 kí tự");
+    return false;
+  }
+  $.post(
+    "/insertExam",
+    {
+      courseID: name,
+      examID: $("#mabaithi").val()
+    },
+    function(data, status) {
+      alert("Status: " + data.message);
+      fetchExam();
     }
-  });
+  );
+  return false;
 }
